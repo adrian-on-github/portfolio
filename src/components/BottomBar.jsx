@@ -56,9 +56,22 @@ function BottomBar() {
         <div className="flex justify-center items-center">
           <div className="bg-purple-200/70 w-[27%] min-h-[50vh] rounded-lg mb-[29vh]">
             <div className="px-4 py-3 flex items-start justify-start gap-2">
-              <Green />
-              <Yellow />
-              <Red />
+              <motion.div
+                whileHover={{ scale: 0.8 }}
+                whileTap={{ scale: 0.7 }}
+                className="w-3 h-3 bg-green-500 rounded-full"
+              ></motion.div>
+              <motion.div
+                whileHover={{ scale: 0.8 }}
+                whileTap={{ scale: 0.7 }}
+                className="w-3 h-3 bg-yellow-500 rounded-full"
+              ></motion.div>
+              <motion.div
+                whileHover={{ scale: 0.8 }}
+                whileTap={{ scale: 0.7 }}
+                className="w-3 h-3 bg-red-500 rounded-full"
+                onClick={triggerGame}
+              ></motion.div>
             </div>
             <div className="flex flex-col my-[3vh] items-center justify-center px-4 py-2">
               <h1 className="text-3xl font-bold text-white mb-6">
@@ -187,37 +200,6 @@ function calculateWinner(board) {
     }
   }
   return null;
-}
-
-function Green() {
-  return (
-    <motion.div
-      whileHover={{ scale: 0.8 }}
-      whileTap={{ scale: 0.5 }}
-      className="w-3 h-3 bg-green-500 rounded-full"
-    ></motion.div>
-  );
-}
-
-function Yellow() {
-  return (
-    <motion.div
-      whileHover={{ scale: 0.8 }}
-      whileTap={{ scale: 0.5 }}
-      className="w-3 h-3 bg-yellow-500 rounded-full"
-    ></motion.div>
-  );
-}
-
-function Red() {
-  return (
-    <motion.div
-      whileHover={{ scale: 0.8 }}
-      whileTap={{ scale: 0.5 }}
-      className="w-3 h-3 bg-red-500 rounded-full"
-      onClick={() => triggerGame()}
-    ></motion.div>
-  );
 }
 
 export default BottomBar;
