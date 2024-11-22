@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import GitHubCalendar from "react-github-calendar";
-import icons from "../constants/index"; // Replace with your actual icons import
+import icons from "../constants/index";
+import Draggable from "react-draggable";
 
 function Navbar() {
   const [widgetStatus, setWidgetStatus] = useState(false);
@@ -57,9 +58,7 @@ function Navbar() {
             whileTap={{ scale: 0.8 }}
             onClick={toggleWidget}
           />
-          <div className="ml-4 flex flex-row gap-[1.2vh]">
-            {/* Additional clickable items can go here */}
-          </div>
+          <div className="ml-4 flex flex-row gap-[1.2vh]">Adrian Hassan</div>
         </div>
         <div className="px-4 flex flex-row justify-center items-center">
           <div className="flex flex-row gap-[1.5vh]">
@@ -68,51 +67,53 @@ function Navbar() {
         </div>
       </nav>
       {widgetStatus === true && (
-        <div className="min-h-[50vh] w-[28%] bg-purple-200/70 rounded-lg mx-4 my-5">
-          <div className="px-4 py-3 flex items-start justify-start gap-2">
-            <motion.div
-              whileHover={{ scale: 0.8 }}
-              whileTap={{ scale: 0.7 }}
-              className="w-3 h-3 bg-green-500 rounded-full"
-            ></motion.div>
-            <motion.div
-              whileHover={{ scale: 0.8 }}
-              whileTap={{ scale: 0.7 }}
-              className="w-3 h-3 bg-yellow-500 rounded-full"
-            ></motion.div>
-            <motion.div
-              whileHover={{ scale: 0.8 }}
-              whileTap={{ scale: 0.7 }}
-              className="w-3 h-3 bg-red-500 rounded-full"
-              onClick={toggleWidget} // Close widget on click
-            ></motion.div>
-          </div>
-          <div className="flex-col">
-            <div className="flex flex-row px-4 py-3 items-start justify-start">
-              Hey Im Adrian <div className="wave-hand">👋</div>
+        <Draggable>
+          <div className="min-h-[50vh] w-[28%] bg-purple-200/70 rounded-lg mx-4 my-5">
+            <div className="px-4 py-3 flex items-start justify-start gap-2">
+              <motion.div
+                whileHover={{ scale: 0.8 }}
+                whileTap={{ scale: 0.7 }}
+                className="w-3 h-3 bg-green-500 rounded-full"
+              ></motion.div>
+              <motion.div
+                whileHover={{ scale: 0.8 }}
+                whileTap={{ scale: 0.7 }}
+                className="w-3 h-3 bg-yellow-500 rounded-full"
+              ></motion.div>
+              <motion.div
+                whileHover={{ scale: 0.8 }}
+                whileTap={{ scale: 0.7 }}
+                className="w-3 h-3 bg-red-500 rounded-full"
+                onClick={toggleWidget} // Close widget on click
+              ></motion.div>
             </div>
-            <div className="flex flex-col px-4 py-3 items-start justify-start">
-              <p className="mt-1">
-                ⭐ Very young developer, whose on a long way to fullstack
-                developer
-              </p>
-              <p className="mt-2">
-                ❤️ Love to collaborate with competent and friendly people around
-                the whole world
-              </p>
-              <p className="mt-2">
-                💭 "During a gold rush, instead of investing in gold diggers,
-                invest in shovels" -André Kostolany
-              </p>
-              <p className="mt-2">🙏 Being more active on github in 2025</p>
+            <div className="flex-col">
+              <div className="flex flex-row px-4 py-3 items-start justify-start">
+                Hey Im Adrian <div className="wave-hand">👋</div>
+              </div>
+              <div className="flex flex-col px-4 py-3 items-start justify-start">
+                <p className="mt-1">
+                  ⭐ Very young developer, whose on a long way to fullstack
+                  developer
+                </p>
+                <p className="mt-2">
+                  ❤️ Love to collaborate with competent and friendly people
+                  around the whole world
+                </p>
+                <p className="mt-2">
+                  💭 "During a gold rush, instead of investing in gold diggers,
+                  invest in shovels" -André Kostolany
+                </p>
+                <p className="mt-2">🙏 Being more active on github in 2025</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="trasform scale-60">
+                <GitHubCalendar username="adrian-on-github" />
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-center">
-            <div className="trasform scale-60">
-              <GitHubCalendar username="adrian-on-github" />
-            </div>
-          </div>
-        </div>
+        </Draggable>
       )}
     </>
   );

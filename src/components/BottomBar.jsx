@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import icons from "../constants/index";
 import { motion, AnimatePresence } from "framer-motion";
+import Draggable from "react-draggable";
 
 function BottomBar() {
   const [showToast, setShowToast] = useState(false);
@@ -53,51 +54,53 @@ function BottomBar() {
   return (
     <>
       {openGame === true && (
-        <div className="flex justify-center items-center">
-          <div className="bg-purple-200/70 w-[27%] min-h-[50vh] rounded-lg mb-[29vh]">
-            <div className="px-4 py-3 flex items-start justify-start gap-2">
-              <motion.div
-                whileHover={{ scale: 0.8 }}
-                whileTap={{ scale: 0.7 }}
-                className="w-3 h-3 bg-green-500 rounded-full"
-              ></motion.div>
-              <motion.div
-                whileHover={{ scale: 0.8 }}
-                whileTap={{ scale: 0.7 }}
-                className="w-3 h-3 bg-yellow-500 rounded-full"
-              ></motion.div>
-              <motion.div
-                whileHover={{ scale: 0.8 }}
-                whileTap={{ scale: 0.7 }}
-                className="w-3 h-3 bg-red-500 rounded-full"
-                onClick={triggerGame}
-              ></motion.div>
-            </div>
-            <div className="flex flex-col my-[3vh] items-center justify-center px-4 py-2">
-              <h1 className="text-3xl font-bold text-white mb-6">
-                Tic Tac Toe
-              </h1>
-              <Board board={board} onClick={handleSquareClick} />
-              {winner && (
-                <p className="text-xl font-semibold text-green-500 mt-4">
-                  {winner} Wins!
-                </p>
-              )}
-              {!winner && !board.includes(null) && (
-                <p className="text-xl font-semibold text-yellow-500 mt-4">
-                  It’s a Draw!
-                </p>
-              )}
-              <button
-                onClick={resetGame}
-                className="mt-6 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600"
-              >
-                Reset Game
-              </button>
-              <div className=""></div>
+        <Draggable>
+          <div className="flex justify-center items-center">
+            <div className="bg-purple-200/70 w-[27%] min-h-[50vh] rounded-lg mb-[29vh]">
+              <div className="px-4 py-3 flex items-start justify-start gap-2">
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  whileTap={{ scale: 0.7 }}
+                  className="w-3 h-3 bg-green-500 rounded-full"
+                ></motion.div>
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  whileTap={{ scale: 0.7 }}
+                  className="w-3 h-3 bg-yellow-500 rounded-full"
+                ></motion.div>
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  whileTap={{ scale: 0.7 }}
+                  className="w-3 h-3 bg-red-500 rounded-full"
+                  onClick={triggerGame}
+                ></motion.div>
+              </div>
+              <div className="flex flex-col my-[3vh] items-center justify-center px-4 py-2">
+                <h1 className="text-3xl font-bold text-white mb-6">
+                  Tic Tac Toe
+                </h1>
+                <Board board={board} onClick={handleSquareClick} />
+                {winner && (
+                  <p className="text-xl font-semibold text-green-500 mt-4">
+                    {winner} Wins!
+                  </p>
+                )}
+                {!winner && !board.includes(null) && (
+                  <p className="text-xl font-semibold text-yellow-500 mt-4">
+                    It’s a Draw!
+                  </p>
+                )}
+                <button
+                  onClick={resetGame}
+                  className="mt-6 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600"
+                >
+                  Reset Game
+                </button>
+                <div className=""></div>
+              </div>
             </div>
           </div>
-        </div>
+        </Draggable>
       )}
       <div className="flex justify-center items-center">
         <div className="bg-purple-100/70 w-[20%] min-h-16 rounded-[3vh]">
