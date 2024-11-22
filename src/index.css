@@ -10,3 +10,40 @@
   font-family: "Poppins", sans-serif;
   font-weight: 500;
 }
+
+.wave-hand {
+  display: inline-block;
+  font-size: 1rem;
+  animation: wave 1.5s ease-in-out infinite;
+  transform-origin: 70% 70%; /* Pivot point for rotation */
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+}
+
+.grid-cols-7 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns for 7 days of the week */
+  gap: 4px;
+}
+
+.scale-60 {
+  --tw-scale-x: 0.6;
+  --tw-scale-y: 0.6;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
