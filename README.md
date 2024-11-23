@@ -1,5 +1,5 @@
 
-![Macbook Preview](https://github.com/adrian-on-github/portfolio/blob/main/preview.png?raw=true)
+![Macbook Preview](https://github.com/adrian-on-github/portfolio-macOS-copy/blob/main/preview.png?raw=true)
 
 ### ⚡ Macbook portfolio
 
