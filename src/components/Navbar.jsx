@@ -87,7 +87,7 @@ function Navbar() {
           </motion.div>
           <div className="ml-2 flex gap-1 flex-row text-sm text-start mt-0.5">
             <motion.p
-              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
               className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Finder

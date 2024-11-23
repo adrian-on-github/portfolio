@@ -14,6 +14,10 @@ function BottomBar() {
   const [showToast, setShowToast] = useState(false);
   const [copied, setCopied] = useState(false);
   const [finder, setFinder] = useState(false);
+  const [projects, setProjects] = useState(false);
+  const [tech, setTech] = useState(false);
+  const [skills, setSkills] = useState(false);
+  const [fetch, setFetch] = useState(true);
   const email = "adrian.hassan.ef@gmail.com";
   const github = "https://github.com/adrian-on-github";
   const X = "https://x.com/DEadrianJS";
@@ -40,6 +44,43 @@ function BottomBar() {
     setFinder(!finder);
   };
 
+  const triggerProjects = () => {
+    if (tech === false && skills === false) {
+      setProjects(!projects);
+      setFetch(false);
+    } else {
+      setTech(false);
+      setSkills(false);
+      setFetch(false);
+    }
+  };
+
+  const triggerSkills = () => {
+    if (projects === false && tech === false) {
+      setSkills(!skills);
+      setFetch(false);
+    } else {
+      setProjects(false);
+      setTech(false);
+      setFetch(false);
+    }
+  };
+
+  const triggerTech = () => {
+    if (projects === false && skills === false) {
+      setTech(!tech);
+      setFetch(false);
+    } else {
+      setProjects(false);
+      setSkills(false);
+      setFetch(false);
+    }
+  };
+
+  const triggerFetch = () => {
+    setFetch(!fetch);
+  };
+
   return (
     <>
       {finder === true && (
@@ -54,7 +95,7 @@ function BottomBar() {
           <div className="flex justify-center items-center mb-[27vh]">
             <div className="bg-gray-400 w-[40%] min-h-[39vh] rounded-2xl backdrop-blur-xl shadow-lg">
               {/* Header with Close Buttons */}
-              <div className="flex justify-start items-center py-2 px-3 gap-2">
+              <div className="flex justify-start items-center py-3 px-3 gap-2">
                 <motion.div
                   whileHover={{ scale: 0.9 }}
                   className="w-3 h-3 bg-green-500 rounded-full cursor-pointer"
@@ -76,7 +117,8 @@ function BottomBar() {
                 <div className="flex items-center flex-row">
                   <motion.div
                     className="px-2 py-1 rounded-lg cursor-pointer flex flex-row gap-1 mt-0.5"
-                    whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+                    whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+                    onClick={() => triggerProjects()}
                   >
                     <Code size={15} color="#3b82f6" />
                     <p className="text-sm font-normal">Projects</p>
@@ -85,7 +127,8 @@ function BottomBar() {
                 <div className="flex items-center">
                   <motion.div
                     className="px-2 py-1 rounded-lg cursor-pointer flex flex-row gap-1 mt-0.5"
-                    whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+                    whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+                    onClick={() => triggerTech()}
                   >
                     <Cpu size={15} color="#3b82f6" />
                     <p className="text-sm font-normal">Technologies</p>
@@ -94,7 +137,8 @@ function BottomBar() {
                 <div className="flex items-center">
                   <motion.div
                     className="px-2 py-1 rounded-lg cursor-pointer flex flex-row gap-1 mt-0.5"
-                    whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+                    whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+                    onClick={() => triggerSkills()}
                   >
                     <GraduationCap size={15} color="#3b82f6" />
                     <p className="text-sm font-normal">Skills</p>
@@ -102,30 +146,112 @@ function BottomBar() {
                 </div>
 
                 {/* Commissions Section */}
-                <div className="text-xs text-gray-500 mt-4 mb-2">
+                {/* <div className="text-xs text-gray-500 mt-4 mb-2">
                   Commissions
-                </div>
+                </div> */}
               </div>
               {/* Rotated Divider */}
               <div className="absolute top-[50%] rotate-90 h-[1px] w-[47.7%] bg-gray-500/70" />
               <div className="absolute top-[15%] h-[1px] w-[76.2%] bg-gray-500/70 right-[-0.1%]" />
-              <div className="absolute top-[3.5%] right-[68%]">
-                <motion.div
-                  className="px-1 py-1 rounded-lg"
-                  whileHover={{ backgroundColor: "#9CA3AFB3" }}
-                >
-                  <ChevronRight size={25} color="#6b7280" />
-                </motion.div>
+              <motion.div
+                className="absolute top-[3.5%] right-[68%] px-0.5 py-0.5 rounded-lg"
+                whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+              >
+                <ChevronRight size={25} color="#6b7280" />
+              </motion.div>
+
+              <motion.div
+                className="absolute top-[3.5%] right-[72%] px-0.5 py-0.5 rounded-lg"
+                whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+                onClick={() => {
+                  setFetch(true);
+                  setProjects(false);
+                  setSkills(false);
+                  setTech(false);
+                }}
+              >
+                <ChevronLeft size={25} color="#6b7280" />
+              </motion.div>
+              <div className="absolute top-[4%] ml-[27vh] px-0.5 py-0.5 rounded-lg">
+                <p className="text-sm">
+                  {(fetch === true && "Finder") ||
+                    (projects === true && "Projects") ||
+                    (skills === true && "Skills") ||
+                    (tech === true && "Technologies")}
+                </p>
               </div>
-              <div className="absolute top-[3.5%] right-[72%]">
-                <motion.div
-                  className="px-1 py-1 rounded-lg"
-                  whileHover={{ backgroundColor: "#9CA3AFB3" }}
-                >
-                  <ChevronLeft size={25} color="#6b7280" />
-                </motion.div>
-              </div>
-              {/* <div className="flex justify-center items-center">Fetching results here</div> */}
+              {fetch === true &&
+                projects === false &&
+                tech === false &&
+                skills === false && (
+                  <div className="absolute top-[6vh] left-[21vh] py-1">
+                    <div className="flex flex-row gap-5">
+                      <motion.div
+                        className="flex flex-col px-2 py-1 rounded-lg cursor-pointer"
+                        whileHover={{
+                          backgroundColor: "rgba(133, 141, 157, 0.5)",
+                        }}
+                        onClick={triggerProjects}
+                      >
+                        <img
+                          src={icons.folder}
+                          alt="folder"
+                          className="w-14 h-14"
+                        />
+                        <p className="text-sm font-normal ml-0.5 text-center">
+                          Projects
+                        </p>
+                      </motion.div>
+                      <motion.div
+                        className="flex flex-col px-2 py-1 rounded-lg cursor-pointer"
+                        whileHover={{
+                          backgroundColor: "rgba(133, 141, 157, 0.5)",
+                        }}
+                        onClick={triggerTech}
+                      >
+                        <img
+                          src={icons.folder}
+                          alt="folder"
+                          className="w-14 h-14 ml-3"
+                        />
+                        <p className="text-sm font-normal text-center">
+                          Technologies
+                        </p>
+                      </motion.div>
+                      <motion.div
+                        className="flex flex-col px-2 py-1 rounded-lg cursor-pointer"
+                        whileHover={{
+                          backgroundColor: "rgba(133, 141, 157, 0.5)",
+                        }}
+                        onClick={triggerSkills}
+                      >
+                        <img
+                          src={icons.folder}
+                          alt="folder"
+                          className="w-14 h-14"
+                        />
+                        <p className="text-sm font-normal text-center">
+                          Skills
+                        </p>
+                      </motion.div>
+                    </div>
+                  </div>
+                )}
+              {projects === true && skills === false && tech === false && (
+                <div className="flex justify-center items-center">
+                  Fetching projects here
+                </div>
+              )}
+              {tech === true && projects === false && skills === false && (
+                <div className="flex justify-center items-center">
+                  Fetching tech here
+                </div>
+              )}
+              {skills === true && tech === false && projects === false && (
+                <div className="flex justify-center items-center">
+                  Fetching skills here
+                </div>
+              )}
             </div>
           </div>
         </Draggable>
