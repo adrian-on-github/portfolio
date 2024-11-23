@@ -3,14 +3,17 @@
 
 ### ⚡ Macbook portfolio
 
-- Me was boring so I made this little macbook portfolio
+ <h1>Me was boring so I made this little macbook portfolio</h1>
 
-  it didn't took much time and I know its not perfect, but I love this simple and clean design
+<div align="start"> it didn't took much time and I know its not perfect, but I love this simple and clean design
   hope you can look into the open source and maybe I could help you a bit 
+
+###
 
 - Easily to add Socials
 - Gmail Copy
 - TicTacToe Game
 - Draggable Widgets
 - MacOS Theme (copied)
-
+</div>
+ 
