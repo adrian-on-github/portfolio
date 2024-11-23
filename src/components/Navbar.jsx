@@ -67,7 +67,14 @@ function Navbar() {
         </div>
       </nav>
       {widgetStatus === true && (
-        <Draggable>
+        <Draggable
+          bounds={{
+            top: 0,
+            left: 0,
+            right: window.innerWidth - 400,
+            bottom: 250,
+          }}
+        >
           <div className="min-h-[50vh] w-[28%] bg-purple-200/70 rounded-lg mx-4 my-5">
             <div className="px-4 py-3 flex items-start justify-start gap-2">
               <motion.div

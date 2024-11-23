@@ -54,7 +54,14 @@ function BottomBar() {
   return (
     <>
       {openGame === true && (
-        <Draggable>
+        <Draggable
+          bounds={{
+            top: 0,
+            left: 0,
+            right: window.innerWidth - 400,
+            bottom: 250,
+          }}
+        >
           <div className="flex justify-center items-center">
             <div className="bg-purple-200/70 w-[27%] min-h-[50vh] rounded-lg mb-[29vh]">
               <div className="px-4 py-3 flex items-start justify-start gap-2">
