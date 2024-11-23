@@ -20,10 +20,12 @@ function BottomBar() {
   const [tech, setTech] = useState(false);
   const [skills, setSkills] = useState(false);
   const [fetch, setFetch] = useState(true);
-  const [currentFolder, setCurrentFolder] = useState(0);
+  const [lastOpened, setLastOpened] = useState(null);
   const email = "adrian.hassan.ef@gmail.com";
   const github = "https://github.com/adrian-on-github";
   const X = "https://x.com/DEadrianJS";
+  const project1 = "https://healthai-one.vercel.app";
+  const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
 
   const handleCopy = () => {
     navigator.clipboard
@@ -51,7 +53,7 @@ function BottomBar() {
     if (tech === false && skills === false) {
       setProjects(!projects);
       setFetch(false);
-      setCurrentFolder(!currentFolder);
+      setLastOpened("projects");
     } else {
       setTech(false);
       setSkills(false);
@@ -63,7 +65,7 @@ function BottomBar() {
     if (projects === false && tech === false) {
       setSkills(!skills);
       setFetch(false);
-      setCurrentFolder(!currentFolder);
+      setLastOpened("skills");
     } else {
       setProjects(false);
       setTech(false);
@@ -75,11 +77,22 @@ function BottomBar() {
     if (projects === false && skills === false) {
       setTech(!tech);
       setFetch(false);
-      setCurrentFolder(!currentFolder);
+      setLastOpened("tech");
     } else {
       setProjects(false);
       setSkills(false);
       setFetch(false);
+    }
+  };
+
+  const reopenLastOpened = () => {
+    setFetch(false);
+    if (lastOpened === "projects") {
+      triggerProjects();
+    } else if (lastOpened === "tech") {
+      triggerTech();
+    } else if (lastOpened === "skills") {
+      triggerSkills();
     }
   };
 
@@ -162,6 +175,7 @@ function BottomBar() {
               <motion.div
                 className="absolute top-[3.5%] right-[68%] px-0.5 py-0.5 rounded-lg"
                 whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+                onClick={() => reopenLastOpened()}
               >
                 <ChevronRight size={25} color="#6b7280" />
               </motion.div>
@@ -199,7 +213,8 @@ function BottomBar() {
                         }}
                         onClick={triggerProjects}
                       >
-                        <img
+                        <motion.img
+                          whileHover={{ scale: 0.8 }}
                           src={icons.folder}
                           alt="folder"
                           className="w-14 h-14"
@@ -215,7 +230,8 @@ function BottomBar() {
                         }}
                         onClick={triggerTech}
                       >
-                        <img
+                        <motion.img
+                          whileHover={{ scale: 0.8 }}
                           src={icons.folder}
                           alt="folder"
                           className="w-14 h-14 ml-3"
@@ -231,7 +247,8 @@ function BottomBar() {
                         }}
                         onClick={triggerSkills}
                       >
-                        <img
+                        <motion.img
+                          whileHover={{ scale: 0.8 }}
                           src={icons.folder}
                           alt="folder"
                           className="w-14 h-14"
@@ -244,8 +261,35 @@ function BottomBar() {
                   </div>
                 )}
               {projects === true && skills === false && tech === false && (
-                <div className="flex justify-center items-center">
-                  Fetching projects here
+                <div className="absolute ml-[21vh] bottom-[25.5vh]">
+                  <div className="flex-row flex text-center">
+                    <div
+                      className="flex-col flex"
+                      onClick={() => window.open(project1, "_blank")}
+                    >
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        whileTap={{ scale: 0.6 }}
+                        src={icons.folder}
+                        alt="HealthAI"
+                        className="w-12 h-12"
+                      />
+                      <p className="text-sm">HealthAI</p>
+                    </div>
+                    <div
+                      className="flex-col flex ml-5"
+                      onClick={() => window.open(project2, "_blank")}
+                    >
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        whileTap={{ scale: 0.6 }}
+                        src={icons.folder}
+                        alt="HealthAI"
+                        className="w-12 h-12"
+                      />
+                      <p className="text-sm">Portfolio</p>
+                    </div>
+                  </div>
                 </div>
               )}
               {tech === true && projects === false && skills === false && (
@@ -352,15 +396,15 @@ function BottomBar() {
                   {isVisible && (
                     <div className="flex justify-center text-center flex-row px-1 py-1 rounded-lg w-2/4 ml-[30vh]">
                       <p className="text-sm mt-1">portfolio programmed in</p>
-                      <img src={icons.react} alt="" className="w-10 h-7" />
+                      <img src={icons.react} alt="react" className="w-10 h-7" />
                       <img
                         src={icons.tailwind}
-                        alt=""
+                        alt="tailwind"
                         className="w-6 h-4 mt-1.5"
                       />
                       <img
                         src={icons.js}
-                        alt=""
+                        alt="js"
                         className="w-5 h-5 mt-1 ml-2.5"
                       />
                     </div>
