@@ -4,7 +4,7 @@ import GitHubCalendar from "react-github-calendar";
 import icons from "../constants/index";
 import Draggable from "react-draggable";
 
-function Navbar() {
+function Navbar({ request }) {
   const [widgetStatus, setWidgetStatus] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -65,7 +65,7 @@ function Navbar() {
 
   const triggerToast = () => {
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000); // Auto-hide after 3 seconds
+    setTimeout(() => setShowToast(false), 3000);
   };
 
   return (
@@ -85,8 +85,9 @@ function Navbar() {
           </motion.div>
           <div className="ml-2 flex gap-1 flex-row text-sm text-start mt-0.5">
             <motion.p
-              whileHover={{ backgroundColor: "rgba(133, 141, 157, 0.5)" }}
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
               className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              onClick={request}
             >
               Finder
             </motion.p>
@@ -233,4 +234,3 @@ function Navbar() {
 }
 
 export default Navbar;
-7;

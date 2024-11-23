@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import icons from "../constants/index";
 import { motion, AnimatePresence } from "framer-motion";
 import Draggable from "react-draggable";
@@ -11,7 +11,7 @@ import {
   EyeOff,
 } from "lucide-react";
 
-function BottomBar() {
+function BottomBar({ triggerAction }) {
   const [showToast, setShowToast] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -99,6 +99,22 @@ function BottomBar() {
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
+
+  const prevTriggerActionRef = useRef();
+
+  useEffect(() => {
+    if (
+      prevTriggerActionRef.current !== undefined &&
+      prevTriggerActionRef.current === false &&
+      triggerAction === true
+    ) {
+      // Nur wenn triggerAction von false auf true geändert wurde
+      triggerFinder();
+    }
+
+    // Speichern des vorherigen Werts von triggerAction
+    prevTriggerActionRef.current = triggerAction;
+  }, [triggerAction]);
 
   return (
     <>
@@ -293,8 +309,13 @@ function BottomBar() {
                 </div>
               )}
               {tech === true && projects === false && skills === false && (
-                <div className="flex justify-center items-center">
-                  Fetching tech here
+                <div className="absolute ml-[22vh] bottom-[25vh] gap-2">
+                  <img
+                    src={icons.raspberry}
+                    alt="raspberry"
+                    className="w-[15%] absolute top-5 left-[11vh]"
+                  />
+                  <img src={icons.macbook} alt="macbook" className="w-[15%]" />
                 </div>
               )}
               {skills === true && tech === false && projects === false && (
@@ -435,6 +456,12 @@ function BottomBar() {
             <motion.img
               src={icons.photoshop}
               className="w-10 h-10 mx-2"
+              whileHover={{ scale: 1.25 }}
+              whileTap={{ scale: 0.95 }}
+            />
+            <motion.img
+              src={icons.spotify}
+              className="w-10 h-10 mx-2 rounded-lg"
               whileHover={{ scale: 1.25 }}
               whileTap={{ scale: 0.95 }}
             />

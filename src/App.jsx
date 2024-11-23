@@ -4,6 +4,12 @@ import React, { useState, useEffect } from "react";
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
+  const [triggerAction, setTriggerAction] = useState(false);
+
+  const handleRequest = () => {
+    setTriggerAction(true);
+    console.log("Request wurde ausgelöst!");
+  };
 
   useEffect(() => {
     // Function to check the screen width
@@ -37,10 +43,10 @@ export default function App() {
         // Desktop View: Navbar and BottomBar
         <div className="relative">
           <div>
-            <Navbar />
+            <Navbar request={handleRequest} />
           </div>
           <div className="fixed bottom-2 left-0 w-full">
-            <BottomBar />
+            <BottomBar triggerAction={triggerAction} />
           </div>
         </div>
       )}
