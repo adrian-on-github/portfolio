@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import GitHubCalendar from "react-github-calendar";
 import icons from "../constants/index";
 import Draggable from "react-draggable";
 
 function Navbar() {
   const [widgetStatus, setWidgetStatus] = useState(false);
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const now = new Date();
-  const year = now.getFullYear();
   const monthIndex = now.getMonth();
   const dayIndex = now.getDay();
   const hours24 = now.getHours(); // 24-Hour Format
@@ -41,57 +42,151 @@ function Navbar() {
   const formattedMinutes =
     minutes === 0 ? "00" : minutes.toString().padStart(2, "0");
 
+  // Toggle DropDown
+  const toggleDropDown = () => {
+    if (!widgetStatus) {
+      // Normalerweise Dropdown umschalten
+      setShowDropDown(!showDropDown);
+    } else {
+      // Wenn Widget aktiv ist, Toaster auslösen
+      triggerToast();
+    }
+  };
+
+  const handleCloseDropdown = () => {
+    // Hierbei handelt es sich um eine separate Funktion, um das Dropdown zu schließen
+    // Ohne dass der Toaster ausgelöst wird.
+    setWidgetStatus(false);
+  };
+
   // Toggle Widget
   const toggleWidget = () => {
+    toggleDropDown();
     setWidgetStatus((prevWidget) => !prevWidget);
+  };
+
+  const triggerToast = () => {
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000); // Auto-hide after 3 seconds
   };
 
   return (
     <>
-      <nav className="bg-purple-200/70 min-h-9 flex flex-row justify-between items-center">
-        <div className="px-3 flex flex-row justify-center items-center">
-          <motion.img
-            src={icons.apple}
-            alt="apple"
-            className="w-5 h-5"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.8 }}
-            onClick={toggleWidget}
-          />
-          <div className="ml-4 flex flex-row gap-[1.2vh]">Adrian Hassan</div>
+      <nav className="bg-gray-300/50 min-h-8 flex flex-row justify-between items-center backdrop-blur-xl">
+        <div className="flex flex-row justify-center items-start px-2">
+          <motion.div
+            className="flex justify-center items-start px-2 py-2 rounded-lg cursor-pointer"
+            whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+          >
+            <motion.img
+              src={icons.apple}
+              alt="apple"
+              className="w-4 h-4"
+              onClick={toggleDropDown}
+            />
+          </motion.div>
+          <div className="ml-2 flex gap-1 flex-row text-sm text-start py-1">
+            <motion.p
+              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+              className="px-1 py-1 rounded-lg cursor-pointer"
+            >
+              Finder
+            </motion.p>
+            <motion.p
+              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+              className="px-1 py-1 rounded-lg cursor-pointer"
+            >
+              Ablage
+            </motion.p>
+            <motion.p
+              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+              className="px-1 py-1 rounded-lg cursor-pointer"
+            >
+              Bearbeiten
+            </motion.p>
+            <motion.p
+              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+              className="px-1 py-1 rounded-lg cursor-pointer"
+            >
+              Darstellung
+            </motion.p>
+            <motion.p
+              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+              className="px-1 py-1 rounded-lg cursor-pointer"
+            >
+              Fenster
+            </motion.p>
+            <motion.p
+              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+              className="px-1 py-1 rounded-lg cursor-pointer"
+            >
+              Hilfe
+            </motion.p>
+          </div>
         </div>
-        <div className="px-4 flex flex-row justify-center items-center">
-          <div className="flex flex-row gap-[1.5vh]">
+        <div className="px-4 flex flex-row justify-center items-end">
+          <div className="flex flex-row gap-[1.5vh] text-sm text-end">
             <p>{`${day} ${month} ${date} ${hours12}:${formattedMinutes} ${ampm}`}</p>
           </div>
         </div>
       </nav>
+      {showDropDown === true && (
+        <div className="min-h-[30vh] w-[13%] bg-gray-300/50 rounded-lg mx-2 mt-0.5 backdrop-blur-xl">
+          <div className="px-4 py-2 gap-1 flex items-start justify-start flex-col">
+            <p
+              onClick={() => toggleWidget()}
+              className="font-normal text-sm cursor-pointer"
+            >
+              About this Mac
+            </p>
+            <div className="w-full border border-gray-300/20" />
+            <p className="font-normal text-sm cursor-pointer">
+              System Settings
+            </p>
+            <p className="font-normal text-sm cursor-pointer">App Store</p>
+            <div className="w-full border border-gray-300/20" />
+            <p className="font-normal text-sm cursor-pointer">Used Objects</p>
+            <div className="w-full border border-gray-300/20" />
+            <p className="font-normal text-sm cursor-pointer">
+              Stop Immediately
+            </p>
+            <div className="w-full border border-gray-300/20" />
+            <p className="font-normal text-sm cursor-pointer">
+              Hibernate State
+            </p>
+            <p className="font-normal text-sm cursor-pointer">Restart</p>
+            <p className="font-normal text-sm cursor-pointer">Turn off</p>
+            <div className="w-full border border-gray-300/20" />
+            <p className="font-normal text-sm cursor-pointer">Lock Screen</p>
+            <p className="font-normal text-sm cursor-pointer">
+              Adrian Hassan log out
+            </p>
+          </div>
+        </div>
+      )}
       {widgetStatus === true && (
         <Draggable
           bounds={{
-            top: 0,
+            top: -15,
             left: 0,
-            right: window.innerWidth - 400,
-            bottom: 250,
+            right: 1325,
+            bottom: 315,
           }}
         >
-          <div className="min-h-[50vh] w-[28%] bg-purple-200/70 rounded-lg mx-4 my-5">
+          <div className="min-h-[50vh] w-[28%] bg-gray-300/50 rounded-lg mx-4 my-5 backdrop-blur-xl">
             <div className="px-4 py-3 flex items-start justify-start gap-2">
               <motion.div
-                whileHover={{ scale: 0.8 }}
-                whileTap={{ scale: 0.7 }}
+                whileHover={{ scale: 0.9 }}
                 className="w-3 h-3 bg-green-500 rounded-full"
               ></motion.div>
               <motion.div
-                whileHover={{ scale: 0.8 }}
-                whileTap={{ scale: 0.7 }}
+                whileHover={{ scale: 0.9 }}
                 className="w-3 h-3 bg-yellow-500 rounded-full"
               ></motion.div>
               <motion.div
-                whileHover={{ scale: 0.8 }}
-                whileTap={{ scale: 0.7 }}
+                whileHover={{ scale: 0.9 }}
                 className="w-3 h-3 bg-red-500 rounded-full"
-                onClick={toggleWidget} // Close widget on click
+                onClick={() => handleCloseDropdown()}
               ></motion.div>
             </div>
             <div className="flex-col">
@@ -122,6 +217,19 @@ function Navbar() {
           </div>
         </Draggable>
       )}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            className="absolute right-4 mt-[33.5vh] bg-white text-black p-4 rounded-lg shadow-md text-center"
+            initial={{ x: 400, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 400, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          >
+            ❌Close Widget first
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -30,7 +30,7 @@ export default function App() {
       {isMobile ? (
         <div className="bg-black text-white min-h-screen flex justify-center items-center">
           <h1 className="text-4xl text-center">
-            Please switch to desktop mode for a better experience
+            Please switch to desktop mode for a better experience...
           </h1>
         </div>
       ) : (
@@ -39,7 +39,7 @@ export default function App() {
           <div>
             <Navbar />
           </div>
-          <div className="fixed bottom-10 left-0 w-full">
+          <div className="fixed bottom-2 left-0 w-full">
             <BottomBar />
           </div>
         </div>

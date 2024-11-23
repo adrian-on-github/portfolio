@@ -6,9 +6,27 @@ import gmail from "../assets/icons/gmail.png";
 import X from "../assets/icons/X.png";
 import vscode from "../assets/icons/vscode.png";
 import github from "../assets/icons/github.png";
-import tictactoe from "../assets/icons/tictactoe.png";
+import notion from "../assets/icons/notion.png";
+import finder from "../assets/icons/finder.png";
+import photoshop from "../assets/icons/photoshop.png";
+import word from "../assets/icons/word.png";
+import discord from "../assets/icons/discord.png";
 
-export { apple, dark, light, folder, github, vscode, tictactoe, X, gmail };
+export {
+  apple,
+  dark,
+  light,
+  folder,
+  github,
+  vscode,
+  X,
+  gmail,
+  notion,
+  finder,
+  photoshop,
+  word,
+  discord,
+};
 
 const icons = {
   apple,
@@ -17,8 +35,12 @@ const icons = {
   folder,
   github,
   vscode,
-  tictactoe,
   X,
   gmail,
+  notion,
+  finder,
+  photoshop,
+  word,
+  discord,
 };
 export default icons;
