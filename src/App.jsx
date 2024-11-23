@@ -30,7 +30,7 @@ export default function App() {
       {isMobile ? (
         <div className="bg-black text-white min-h-screen flex justify-center items-center">
           <h1 className="text-4xl text-center">
-            Please switch to desktop mode for a better experience...
+            Please switch to desktop mode for a better experience
           </h1>
         </div>
       ) : (

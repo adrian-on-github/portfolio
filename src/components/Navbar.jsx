@@ -73,10 +73,10 @@ function Navbar() {
   return (
     <>
       <nav className="bg-gray-300/50 min-h-8 flex flex-row justify-between items-center backdrop-blur-xl">
-        <div className="flex flex-row justify-center items-start px-2">
+        <div className="flex flex-row justify-center items-start px-2 py-1">
           <motion.div
             className="flex justify-center items-start px-2 py-2 rounded-lg cursor-pointer"
-            whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
+            whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
           >
             <motion.img
               src={icons.apple}
@@ -85,40 +85,40 @@ function Navbar() {
               onClick={toggleDropDown}
             />
           </motion.div>
-          <div className="ml-2 flex gap-1 flex-row text-sm text-start py-1">
+          <div className="ml-2 flex gap-1 flex-row text-sm text-start mt-0.5">
             <motion.p
-              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
-              className="px-1 py-1 rounded-lg cursor-pointer"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Finder
             </motion.p>
             <motion.p
-              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
-              className="px-1 py-1 rounded-lg cursor-pointer"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Ablage
             </motion.p>
             <motion.p
-              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
-              className="px-1 py-1 rounded-lg cursor-pointer"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Bearbeiten
             </motion.p>
             <motion.p
-              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
-              className="px-1 py-1 rounded-lg cursor-pointer"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Darstellung
             </motion.p>
             <motion.p
-              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
-              className="px-1 py-1 rounded-lg cursor-pointer"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Fenster
             </motion.p>
             <motion.p
-              whileHover={{ backgroundColor: "rgba(209, 213, 219, 0.3" }}
-              className="px-1 py-1 rounded-lg cursor-pointer"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
             >
               Hilfe
             </motion.p>
