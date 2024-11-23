@@ -54,8 +54,6 @@ function Navbar() {
   };
 
   const handleCloseDropdown = () => {
-    // Hierbei handelt es sich um eine separate Funktion, um das Dropdown zu schließen
-    // Ohne dass der Toaster ausgelöst wird.
     setWidgetStatus(false);
   };
 

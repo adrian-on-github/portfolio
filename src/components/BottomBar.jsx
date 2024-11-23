@@ -8,16 +8,19 @@ import {
   GraduationCap,
   ChevronRight,
   ChevronLeft,
+  EyeOff,
 } from "lucide-react";
 
 function BottomBar() {
   const [showToast, setShowToast] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
   const [finder, setFinder] = useState(false);
   const [projects, setProjects] = useState(false);
   const [tech, setTech] = useState(false);
   const [skills, setSkills] = useState(false);
   const [fetch, setFetch] = useState(true);
+  const [currentFolder, setCurrentFolder] = useState(0);
   const email = "adrian.hassan.ef@gmail.com";
   const github = "https://github.com/adrian-on-github";
   const X = "https://x.com/DEadrianJS";
@@ -48,6 +51,7 @@ function BottomBar() {
     if (tech === false && skills === false) {
       setProjects(!projects);
       setFetch(false);
+      setCurrentFolder(!currentFolder);
     } else {
       setTech(false);
       setSkills(false);
@@ -59,6 +63,7 @@ function BottomBar() {
     if (projects === false && tech === false) {
       setSkills(!skills);
       setFetch(false);
+      setCurrentFolder(!currentFolder);
     } else {
       setProjects(false);
       setTech(false);
@@ -70,6 +75,7 @@ function BottomBar() {
     if (projects === false && skills === false) {
       setTech(!tech);
       setFetch(false);
+      setCurrentFolder(!currentFolder);
     } else {
       setProjects(false);
       setSkills(false);
@@ -77,8 +83,8 @@ function BottomBar() {
     }
   };
 
-  const triggerFetch = () => {
-    setFetch(!fetch);
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
   };
 
   return (
@@ -248,9 +254,118 @@ function BottomBar() {
                 </div>
               )}
               {skills === true && tech === false && projects === false && (
-                <div className="flex justify-center items-center">
-                  Fetching skills here
-                </div>
+                <>
+                  <div className="absolute right-[1vh] bottom-[28vh]">
+                    <div className="flex flex-row gap-3">
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.html}
+                        alt="html"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.css}
+                        alt="css"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.js}
+                        alt="js"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.ts}
+                        alt="ts"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.tailwind}
+                        alt="tailwind"
+                        className="w-10 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.nextjs}
+                        alt="nextjs"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.node}
+                        alt="node"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.express}
+                        alt="express"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.react}
+                        alt="react"
+                        className="w-10 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.supabase}
+                        alt="supabase"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.mongodb}
+                        alt="mongodb"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.php}
+                        alt="php"
+                        className="w-7 h-7"
+                      />
+                      <motion.img
+                        whileHover={{ scale: 0.8 }}
+                        src={icons.mysql}
+                        alt="mysql"
+                        className="w-10 h-7"
+                      />
+                    </div>
+                  </div>
+
+                  <motion.div
+                    className="absolute justify-center text-center items-center h-9 ml-[30vh] flex-row px-1 py-1 w-2/4 rounded-lg bg-black/20"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible === false && (
+                      <div className="items-center justify-center flex mt-1">
+                        <EyeOff size={20} />
+                      </div>
+                    )}
+                  </motion.div>
+
+                  {isVisible && (
+                    <div className="flex justify-center text-center flex-row px-1 py-1 rounded-lg w-2/4 ml-[30vh]">
+                      <p className="text-sm mt-1">portfolio programmed in</p>
+                      <img src={icons.react} alt="" className="w-10 h-7" />
+                      <img
+                        src={icons.tailwind}
+                        alt=""
+                        className="w-6 h-4 mt-1.5"
+                      />
+                      <img
+                        src={icons.js}
+                        alt=""
+                        className="w-5 h-5 mt-1 ml-2.5"
+                      />
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
