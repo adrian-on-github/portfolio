@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 function BottomBar({ triggerAction }) {
+  const [weatherWidget, setWeatherWidget] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -26,6 +27,9 @@ function BottomBar({ triggerAction }) {
   const X = "https://x.com/DEadrianJS";
   const project1 = "https://healthai-one.vercel.app";
   const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
+
+  const apiWeather = import.meta.env.REACT_APP_WEATHER_API_KEY;
+  console.log(apiWeather);
 
   const handleCopy = () => {
     navigator.clipboard
@@ -118,6 +122,20 @@ function BottomBar({ triggerAction }) {
 
   return (
     <>
+      {weatherWidget === true && (
+        <Draggable
+          bounds={{
+            top: 0,
+            right: 2,
+            left: -1300,
+            bottom: 570,
+          }}
+        >
+          <div className="flex justify-end mb-[63vh] mr-[0.5vh]">
+            <div className="bg-blue-400/70 w-[30%] min-h-[24vh] rounded-2xl backdrop-blur-xl shadow-lg"></div>
+          </div>
+        </Draggable>
+      )}
       {finder === true && (
         <Draggable
           bounds={{
@@ -277,10 +295,10 @@ function BottomBar({ triggerAction }) {
                   </div>
                 )}
               {projects === true && skills === false && tech === false && (
-                <div className="absolute ml-[21vh] bottom-[25.5vh]">
+                <div className="absolute ml-[22vh] bottom-[25.5vh]">
                   <div className="flex-row flex text-center">
                     <div
-                      className="flex-col flex"
+                      className="flex-col flex text-center justify-center items-center"
                       onClick={() => window.open(project1, "_blank")}
                     >
                       <motion.img
@@ -293,7 +311,7 @@ function BottomBar({ triggerAction }) {
                       <p className="text-sm">HealthAI</p>
                     </div>
                     <div
-                      className="flex-col flex ml-5"
+                      className="flex-col flex text-center justify-center items-center ml-5"
                       onClick={() => window.open(project2, "_blank")}
                     >
                       <motion.img
