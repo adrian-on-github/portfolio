@@ -48,8 +48,7 @@ function Navbar({ request }) {
       // Normalerweise Dropdown umschalten
       setShowDropDown(!showDropDown);
     } else {
-      // Wenn Widget aktiv ist, Toaster auslösen
-      triggerToast();
+      handleCloseDropdown();
     }
   };
 
@@ -61,11 +60,6 @@ function Navbar({ request }) {
   const toggleWidget = () => {
     toggleDropDown();
     setWidgetStatus((prevWidget) => !prevWidget);
-  };
-
-  const triggerToast = () => {
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
   };
 
   return (
@@ -172,7 +166,7 @@ function Navbar({ request }) {
             bottom: 315,
           }}
         >
-          <div className="min-h-[50vh] w-[28%] bg-gray-300/50 rounded-lg mx-4 my-5 backdrop-blur-xl">
+          <div className="min-h-[50vh] w-[28%] bg-gray-400 rounded-lg mx-4 my-5 backdrop-blur-xl cursor-pointer">
             <div className="px-4 py-3 flex items-start justify-start gap-2">
               <motion.div
                 whileHover={{ scale: 0.9 }}
@@ -209,26 +203,13 @@ function Navbar({ request }) {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="trasform scale-60">
+              <div className="transform scale-60">
                 <GitHubCalendar username="adrian-on-github" />
               </div>
             </div>
           </div>
         </Draggable>
       )}
-      <AnimatePresence>
-        {showToast && (
-          <motion.div
-            className="absolute right-4 mt-[33.5vh] bg-white text-black p-4 rounded-lg shadow-md text-center"
-            initial={{ x: 400, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 400, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          >
-            ❌Close Widget first
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }

@@ -9,10 +9,11 @@ import {
   ChevronRight,
   ChevronLeft,
   EyeOff,
+  Wind,
 } from "lucide-react";
+import axios from "axios";
 
 function BottomBar({ triggerAction }) {
-  const [weatherWidget, setWeatherWidget] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -22,14 +23,30 @@ function BottomBar({ triggerAction }) {
   const [skills, setSkills] = useState(false);
   const [fetch, setFetch] = useState(true);
   const [lastOpened, setLastOpened] = useState(null);
+  const [weatherData, setWeatherData] = useState();
+  const [loading, setLoading] = useState(true);
   const email = "adrian.hassan.ef@gmail.com";
   const github = "https://github.com/adrian-on-github";
   const X = "https://x.com/DEadrianJS";
   const project1 = "https://healthai-one.vercel.app";
   const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
 
-  const apiWeather = import.meta.env.REACT_APP_WEATHER_API_KEY;
-  console.log(apiWeather);
+  const API_KEY = import.meta.env.WEATHER_API_KEY;
+  const city = "Erfurt";
+  const url = `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}&lang=de`;
+
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((response) => {
+        setWeatherData(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("err", err);
+        setLoading(false);
+      });
+  }, [url]);
 
   const handleCopy = () => {
     navigator.clipboard
@@ -122,20 +139,6 @@ function BottomBar({ triggerAction }) {
 
   return (
     <>
-      {weatherWidget === true && (
-        <Draggable
-          bounds={{
-            top: 0,
-            right: 2,
-            left: -1300,
-            bottom: 570,
-          }}
-        >
-          <div className="flex justify-end mb-[63vh] mr-[0.5vh]">
-            <div className="bg-blue-400/70 w-[30%] min-h-[24vh] rounded-2xl backdrop-blur-xl shadow-lg"></div>
-          </div>
-        </Draggable>
-      )}
       {finder === true && (
         <Draggable
           bounds={{
@@ -146,7 +149,7 @@ function BottomBar({ triggerAction }) {
           }}
         >
           <div className="flex justify-center items-center mb-[27vh]">
-            <div className="bg-gray-400 w-[40%] min-h-[39vh] rounded-2xl backdrop-blur-xl shadow-lg">
+            <div className="bg-gray-400 w-[40%] min-h-[39vh] rounded-2xl backdrop-blur-xl shadow-lg cursor-pointer">
               {/* Header with Close Buttons */}
               <div className="flex justify-start items-center py-3 px-3 gap-2">
                 <motion.div
@@ -245,10 +248,13 @@ function BottomBar({ triggerAction }) {
                         whileHover={{
                           backgroundColor: "rgba(133, 141, 157, 0.5)",
                         }}
-                        onClick={triggerProjects}
+                        onDoubleClick={triggerProjects}
+                        whileTap={{
+                          opacity: 0.8,
+                        }}
                       >
                         <motion.img
-                          whileHover={{ scale: 0.8 }}
+                          whileHover={{ scale: 0.9 }}
                           src={icons.folder}
                           alt="folder"
                           className="w-14 h-14"
@@ -262,10 +268,13 @@ function BottomBar({ triggerAction }) {
                         whileHover={{
                           backgroundColor: "rgba(133, 141, 157, 0.5)",
                         }}
-                        onClick={triggerTech}
+                        onDoubleClick={triggerTech}
+                        whileTap={{
+                          opacity: 0.8,
+                        }}
                       >
                         <motion.img
-                          whileHover={{ scale: 0.8 }}
+                          whileHover={{ scale: 0.9 }}
                           src={icons.folder}
                           alt="folder"
                           className="w-14 h-14 ml-3"
@@ -279,10 +288,13 @@ function BottomBar({ triggerAction }) {
                         whileHover={{
                           backgroundColor: "rgba(133, 141, 157, 0.5)",
                         }}
-                        onClick={triggerSkills}
+                        onDoubleClick={triggerSkills}
+                        whileTap={{
+                          opacity: 0.8,
+                        }}
                       >
                         <motion.img
-                          whileHover={{ scale: 0.8 }}
+                          whileHover={{ scale: 0.9 }}
                           src={icons.folder}
                           alt="folder"
                           className="w-14 h-14"
@@ -295,34 +307,40 @@ function BottomBar({ triggerAction }) {
                   </div>
                 )}
               {projects === true && skills === false && tech === false && (
-                <div className="absolute ml-[22vh] bottom-[25.5vh]">
+                <div className="absolute ml-[20.5vh] bottom-[24.5vh]">
                   <div className="flex-row flex text-center">
-                    <div
-                      className="flex-col flex text-center justify-center items-center"
+                    <motion.div
+                      className="flex-col flex text-center justify-center items-center px-2 py-1 rounded-lg"
                       onClick={() => window.open(project1, "_blank")}
+                      whileHover={{
+                        backgroundColor: "rgba(133, 141, 157, 0.5)",
+                      }}
                     >
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         whileTap={{ scale: 0.6 }}
                         src={icons.folder}
                         alt="HealthAI"
                         className="w-12 h-12"
                       />
                       <p className="text-sm">HealthAI</p>
-                    </div>
-                    <div
-                      className="flex-col flex text-center justify-center items-center ml-5"
+                    </motion.div>
+                    <motion.div
+                      className="flex-col flex text-center justify-center items-center ml-5 px-2 py-1 rounded-lg"
                       onClick={() => window.open(project2, "_blank")}
+                      whileHover={{
+                        backgroundColor: "rgba(133, 141, 157, 0.5)",
+                      }}
                     >
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         whileTap={{ scale: 0.6 }}
                         src={icons.folder}
                         alt="HealthAI"
                         className="w-12 h-12"
                       />
                       <p className="text-sm">Portfolio</p>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
               )}
@@ -341,79 +359,79 @@ function BottomBar({ triggerAction }) {
                   <div className="absolute right-[1vh] bottom-[28vh]">
                     <div className="flex flex-row gap-3">
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.html}
                         alt="html"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.css}
                         alt="css"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.js}
                         alt="js"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.ts}
                         alt="ts"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.tailwind}
                         alt="tailwind"
                         className="w-10 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.nextjs}
                         alt="nextjs"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.node}
                         alt="node"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.express}
                         alt="express"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.react}
                         alt="react"
                         className="w-10 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.supabase}
                         alt="supabase"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.mongodb}
                         alt="mongodb"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.php}
                         alt="php"
                         className="w-7 h-7"
                       />
                       <motion.img
-                        whileHover={{ scale: 0.8 }}
+                        whileHover={{ scale: 0.9 }}
                         src={icons.mysql}
                         alt="mysql"
                         className="w-10 h-7"
@@ -454,6 +472,37 @@ function BottomBar({ triggerAction }) {
           </div>
         </Draggable>
       )}
+      <Draggable
+        bounds={{
+          top: 0,
+          right: 2,
+          left: -1390,
+          bottom: 625,
+        }}
+      >
+        <div className="relative left-[152.8vh] bottom-[69.3vh]">
+          <div className="bg-gradient-to-t from-blue-400/70 to-blue-500/70 w-[25%] min-h-[18vh] rounded-2xl backdrop-blur-xl shadow-lg cursor-pointer">
+            <div className="flex justify-between px-4 py-3">
+              <div className="flex flex-col">
+                <p className="text-white text-xl">
+                  {weatherData.location.name}
+                </p>
+                <p className="text-white text-2xl mt-1">
+                  {weatherData.current.temp_c}°C
+                </p>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-white text-xl">
+                  {weatherData.current.condition.text}
+                </p>
+                <p className="text-white text-lg mt-1">
+                  {weatherData.current.wind_kph} km/h
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Draggable>
       <div className="flex justify-center items-center">
         <div className="bg-gray-300/50 w-[35%] min-h-16 rounded-2xl backdrop-blur-xl">
           <div className="flex justify-center items-center py-2">
