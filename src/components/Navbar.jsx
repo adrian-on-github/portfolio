@@ -4,7 +4,7 @@ import GitHubCalendar from "react-github-calendar";
 import icons from "../constants/index";
 import Draggable from "react-draggable";
 
-function Navbar({ request }) {
+function Navbar({ request, requestTurnOff }) {
   const [widgetStatus, setWidgetStatus] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -67,7 +67,7 @@ function Navbar({ request }) {
       <nav className="bg-gray-300/50 min-h-8 flex flex-row justify-between items-center backdrop-blur-xl">
         <div className="flex flex-row justify-center items-start px-2 py-1">
           <motion.div
-            className="flex justify-center items-start px-2 py-2 rounded-lg cursor-pointer"
+            className="flex justify-center items-start px-2 py-2 rounded-lg pointer"
             whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
           >
             <motion.img
@@ -80,80 +80,75 @@ function Navbar({ request }) {
           <div className="ml-2 flex gap-1 flex-row text-sm text-start mt-0.5">
             <motion.p
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
-              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              className="px-1 py-1 rounded-[0.7vh] pointer"
               onClick={request}
             >
               Finder
             </motion.p>
             <motion.p
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
-              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              className="px-1 py-1 rounded-[0.7vh] pointer"
             >
-              Ablage
+              File
             </motion.p>
             <motion.p
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
-              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              className="px-1 py-1 rounded-[0.7vh] pointer"
             >
-              Bearbeiten
+              Edit
             </motion.p>
             <motion.p
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
-              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              className="px-1 py-1 rounded-[0.7vh] pointer"
             >
-              Darstellung
+              View
             </motion.p>
             <motion.p
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
-              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              className="px-1 py-1 rounded-[0.7vh] pointer"
             >
-              Fenster
+              Window
             </motion.p>
             <motion.p
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
-              className="px-1 py-1 rounded-[0.7vh] cursor-pointer"
+              className="px-1 py-1 rounded-[0.7vh] pointer"
             >
-              Hilfe
+              Help
             </motion.p>
           </div>
         </div>
         <div className="px-4 flex flex-row justify-center items-end">
           <div className="flex flex-row gap-[1.5vh] text-sm text-end">
+            <div className="flex justify-end items-center gap-2 scale-[1.15]">
+              <ion-icon name="wifi"></ion-icon>
+              <ion-icon name="volume-high"></ion-icon>
+              <ion-icon name="battery-full"></ion-icon>
+            </div>
+
             <p>{`${day} ${month} ${date} ${hours12}:${formattedMinutes} ${ampm}`}</p>
           </div>
         </div>
       </nav>
       {showDropDown === true && (
-        <div className="min-h-[30vh] w-[13%] bg-gray-300/50 rounded-lg mx-2 mt-0.5 backdrop-blur-xl">
+        <div className="min-h-[20vh] w-[13%] bg-gray-300/50 rounded-lg mx-2 mt-0.5 backdrop-blur-xl">
           <div className="px-4 py-2 gap-1 flex items-start justify-start flex-col">
             <p
               onClick={() => toggleWidget()}
-              className="font-normal text-sm cursor-pointer"
+              className="font-normal text-sm pointer"
             >
               About this Mac
             </p>
             <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm cursor-pointer">
-              System Settings
-            </p>
-            <p className="font-normal text-sm cursor-pointer">App Store</p>
+            <p className="font-normal text-sm pointer">System Settings</p>
             <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm cursor-pointer">Used Objects</p>
+            <p className="font-normal text-sm pointer">Stop Immediately</p>
             <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm cursor-pointer">
-              Stop Immediately
+            <p className="font-normal text-sm pointer" onClick={requestTurnOff}>
+              Turn off
             </p>
             <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm cursor-pointer">
-              Hibernate State
-            </p>
-            <p className="font-normal text-sm cursor-pointer">Restart</p>
-            <p className="font-normal text-sm cursor-pointer">Turn off</p>
-            <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm cursor-pointer">Lock Screen</p>
-            <p className="font-normal text-sm cursor-pointer">
-              Adrian Hassan log out
-            </p>
+            <p className="font-normal text-sm pointer">Lock Screen</p>
+            <p className="font-normal text-sm pointer">Adrian Hassan log out</p>
           </div>
         </div>
       )}
@@ -166,18 +161,18 @@ function Navbar({ request }) {
             bottom: 315,
           }}
         >
-          <div className="min-h-[50vh] w-[28%] bg-gray-400 rounded-lg mx-4 my-5 backdrop-blur-xl cursor-pointer">
+          <div className="min-h-[50vh] w-[28%] bg-gray-400 rounded-lg mx-4 my-5 backdrop-blur-xl pointer">
             <div className="px-4 py-3 flex items-start justify-start gap-2">
               <motion.div
-                whileHover={{ scale: 0.9 }}
+                whileHover={{ scale: 0.7 }}
                 className="w-3 h-3 bg-green-500 rounded-full"
               ></motion.div>
               <motion.div
-                whileHover={{ scale: 0.9 }}
+                whileHover={{ scale: 0.7 }}
                 className="w-3 h-3 bg-yellow-500 rounded-full"
               ></motion.div>
               <motion.div
-                whileHover={{ scale: 0.9 }}
+                whileHover={{ scale: 0.7 }}
                 className="w-3 h-3 bg-red-500 rounded-full"
                 onClick={() => handleCloseDropdown()}
               ></motion.div>

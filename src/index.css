@@ -7,9 +7,16 @@
 :root {
   color-scheme: light;
   background-image: url("./assets/images/background.png");
-  background-size: cover; /* Scales the image to cover the entire container */
+  background-size: cover; /* Skaliert das Bild, um den gesamten Container abzudecken */
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+
+  /* macOS Standard-Cursor */
+  cursor: url("./assets/cursor/macOS_cursor.png"), default;
+}
+
+.pointer {
+  cursor: url("./assets/cursor/macOS_handpointing.png"), pointer;
 }
 
 .wave-hand {
