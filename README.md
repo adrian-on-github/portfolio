@@ -1,7 +1,5 @@
 ![Macbook Preview](https://github.com/adrian-on-github/portfolio-macOS-copy/blob/main/preview.png?raw=true)
 
-### PORTFOLIO CURRENTLY DOWN.
-
 ### <h1>⚡ Macbook portfolio</h1>
 
  <h2>Me was boring so I made this little macbook portfolio</h2>
