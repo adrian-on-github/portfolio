@@ -11,6 +11,7 @@ import {
   EyeOff,
   Wind,
 } from "lucide-react";
+import axios from "axios";
 
 function BottomBar({ triggerAction }) {
   const [showToast, setShowToast] = useState(false);
@@ -22,51 +23,106 @@ function BottomBar({ triggerAction }) {
   const [tech, setTech] = useState(false);
   const [skills, setSkills] = useState(false);
   const [fetch, setFetch] = useState(true);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false); // Track if song is playing
   const [lastOpened, setLastOpened] = useState(null);
+  const [weatherData, setWeatherData] = useState({
+    city: "Erfurt",
+    temperature: null,
+    condition: "",
+    windSpeed: null,
+  });
   const email = "adrian.hassan.ef@gmail.com";
   const github = "https://github.com/adrian-on-github";
   const X = "https://x.com/DEadrianJS";
   const project1 = "https://healthai-one.vercel.app";
   const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
-  const CLIENT_ID = "f242b6cee3004e5bad23daf874fb465c";
-  const REDIRECT_URI = "https://adrianhassan-macos-portfolio.vercel.app";
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const RESPONSE_TYPE = "token";
-  const [currentSong, setCurrentSong] = useState(null);
-  const [songStatus, setSongStatus] = useState("");
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+      const city = "Erfurt";
+      const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&lang=en`;
+
+      try {
+        const response = await axios.get(url);
+        const data = response.data; // Daten aus der Antwort
+        setWeatherData({
+          city: data.location.name,
+          temperature: data.current.temp_c,
+          condition: data.current.condition.text,
+          windSpeed: data.current.wind_kph,
+        });
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Wetterdaten:", error);
+      }
+    };
+
+    fetchWeatherData();
+  }, []);
+
+  const { city, temperature, condition, windSpeed } = weatherData;
 
   useEffect(() => {
     const fetchCurrentSong = async () => {
+      const token = import.meta.env.VITE_SPOTIFY_ACCESS_TOKEN;
+
       try {
-        const token = import.meta.env.SPOTIFY_ACCESS_TOKEN; // Adjust for your env setup
-        if (!token) {
-          console.error("Spotify access token not found.");
+        const response = await axios.get(
+          "https://api.spotify.com/v1/me/player/currently-playing",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 204 || !response.data) {
+          console.log("No song is currently playing.");
+          setCurrentSong(null);
+          setIsPlaying(false);
           return;
         }
 
-        const response = await fetch("/now-playing", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          console.error(`Error fetching song: ${response.statusText}`);
-          return;
+        const { item, progress_ms, is_playing } = response.data;
+        if (item) {
+          setCurrentSong({
+            name: item.name,
+            artist: item.artists.map((artist) => artist.name).join(", "),
+            albumArt: item.album.images[0]?.url,
+            songLink: item.external_urls.spotify,
+            duration: item.duration_ms,
+          });
+          setProgress(progress_ms);
+          setIsPlaying(is_playing);
+        } else {
+          setCurrentSong(null);
+          setIsPlaying(false);
         }
-
-        const data = await response.json();
-        setCurrentSong(data); // Assuming 'data' contains song info
-      } catch (error) {
-        console.error("Error fetching current song:", error);
+      } catch (err) {
+        console.error("Error fetching current song:", err);
       }
     };
 
     fetchCurrentSong();
-    const interval = setInterval(fetchCurrentSong, 5000); // Update every 5 seconds
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    // Poll every 5 seconds for new song data
+    const interval = setInterval(fetchCurrentSong, 5000);
+
+    return () => clearInterval(interval); // Cleanup interval
   }, []);
+
+  useEffect(() => {
+    // Progress updater
+    const updateProgress = setInterval(() => {
+      if (isPlaying && currentSong && progress < currentSong.duration) {
+        setProgress((prevProgress) => prevProgress + 1000);
+      }
+    }, 1000);
+
+    return () => clearInterval(updateProgress); // Cleanup interval
+  }, [isPlaying, currentSong, progress]);
 
   const handleCopy = () => {
     navigator.clipboard
@@ -181,6 +237,12 @@ function BottomBar({ triggerAction }) {
       triggerFinder();
     }
     reopenLastOpened();
+  };
+
+  const formatTime = (ms) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
@@ -509,53 +571,73 @@ function BottomBar({ triggerAction }) {
           </div>
         </Draggable>
       )}
-      <div className="absolute bg-gradient-to-t bottom-[76vh] left-[153vh] from-blue-400 to-blue-500 w-[25%] min-h-[18vh] rounded-2xl shadow-lg">
+      <div className="absolute bg-gradient-to-t bottom-[76.2vh] left-[153vh] from-blue-400 to-blue-500 w-[25%] min-h-[18vh] rounded-2xl shadow-lg">
         <div className="flex justify-between px-4 py-3">
           <div className="flex flex-col">
-            <p className="text-white text-xl">loc</p>
-            <p className="text-white text-2xl mt-1">°C</p>
+            <p className="text-white text-xl">{city}</p>
+            <p className="text-white text-2xl mt-1">
+              {temperature !== null
+                ? `${Math.round(temperature)}°C`
+                : "Laden..."}
+            </p>
           </div>
           <div className="flex flex-col">
-            <p className="text-white text-xl">con</p>
-            <p className="text-white text-lg mt-1">km/h</p>
+            <p className="text-white text-xl">{condition || "Laden..."}</p>
+            <p className="text-white text-lg mt-1">
+              {windSpeed !== null ? `${windSpeed} km/h` : "..."}
+            </p>
           </div>
         </div>
       </div>
-      <div className="absolute bottom-[57vh] mr-1 left-[153vh] bg-gray-800 w-[25%] min-h-[18vh] rounded-2xl shadow-lg">
-        <div className="flex justify-start px-4 py-2">
-          <img
-            src={icons.spotify}
-            alt="spofify"
-            className="w-12 h-12 rounded-lg"
-          />
-        </div>
-        <div className="flex flex-col text-center justify-center items-center">
-          <div className="flex justify-start px-4 py-2">
-            {currentSong && (
-              <img
-                src={currentSong.albumArt}
-                alt="Album Art"
-                className="w-12 h-12 rounded-lg"
-              />
-            )}
-          </div>
-          <div className="flex flex-col text-center justify-center items-center">
+      <div className="absolute bottom-[57.5vh] mr-1 left-[153vh] bg-gray-800 w-[25%] min-h-[18vh] rounded-2xl shadow-lg p-4">
+        <div className="flex items-center">
+          {currentSong && (
+            <img
+              src={currentSong.albumArt}
+              alt="Album Art"
+              className="w-12 h-12 rounded-lg"
+            />
+          )}
+          <div className="ml-4">
             {currentSong ? (
               <>
                 <p className="text-white text-sm">{currentSong.name}</p>
                 <p className="text-white text-sm mt-1">{currentSong.artist}</p>
+                <a
+                  href={currentSong.songLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-400 text-sm mt-1"
+                >
+                  Listen on Spotify
+                </a>
               </>
             ) : (
-              <p className="text-white text-sm">Loading...</p>
+              <p className="text-white text-sm mt-1">
+                No song is currently playing.
+              </p>
             )}
-
-            <a
-              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-            >
-              Login to Spotify
-            </a>
           </div>
         </div>
+
+        {/* Progress bar */}
+        {currentSong && (
+          <div className="mt-4">
+            <div className="relative w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+              <div
+                className="absolute bg-white h-full transition-all"
+                style={{
+                  width: `${(progress / currentSong.duration) * 100}%`,
+                  transitionDuration: isPlaying ? "1s" : "0s", // Smooth 1s update
+                }}
+              />
+            </div>
+            <div className="flex justify-between text-xs text-gray-400 mt-1">
+              <span>{formatTime(progress)}</span>
+              <span>{formatTime(currentSong.duration)}</span>
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex justify-center items-center">
         <div className="bg-gray-300/50 w-[45%] min-h-16 rounded-2xl backdrop-blur-xl">
