@@ -48,31 +48,21 @@ export default function App() {
 
   return (
     <div>
-      {turnOff !== true &&
-        (isMobile ? (
-          <div className="bg-black text-white min-h-screen flex justify-center items-center">
-            <h1 className="text-4xl text-center">
-              Please switch to desktop mode for a better experience
-            </h1>
+      {isMobile ? (
+        <div className="bg-black text-white min-h-screen flex justify-center items-center">
+          <h1 className="text-4xl text-center">
+            Please switch to desktop mode for a better experience
+          </h1>
+        </div>
+      ) : (
+        // Desktop View: Navbar and BottomBar
+        <div className="relative">
+          <div>
+            <Navbar request={handleRequest} requestTurnOff={toggleTurnOff} />
           </div>
-        ) : (
-          // Desktop View: Navbar and BottomBar
-          <div className="relative">
-            <div>
-              <Navbar request={handleRequest} requestTurnOff={toggleTurnOff} />
-            </div>
-            <div className="fixed bottom-2 left-0 w-full">
-              <BottomBar triggerAction={triggerAction} />
-            </div>
+          <div className="fixed bottom-2 left-0 w-full">
+            <BottomBar triggerAction={triggerAction} />
           </div>
-        ))}
-      {turnOff === true && (
-        <div className="flex justify-center items-center">
-          <img
-            src={fake}
-            alt="off-screen-fake"
-            className="fixed cover w-[100%] mt-[120vh]"
-          />
         </div>
       )}
     </div>

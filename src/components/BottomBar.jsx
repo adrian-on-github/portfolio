@@ -11,7 +11,6 @@ import {
   EyeOff,
   Wind,
 } from "lucide-react";
-import axios from "axios";
 
 function BottomBar({ triggerAction }) {
   const [showToast, setShowToast] = useState(false);
@@ -29,6 +28,45 @@ function BottomBar({ triggerAction }) {
   const X = "https://x.com/DEadrianJS";
   const project1 = "https://healthai-one.vercel.app";
   const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
+  const CLIENT_ID = "f242b6cee3004e5bad23daf874fb465c";
+  const REDIRECT_URI = "https://adrianhassan-macos-portfolio.vercel.app";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
+  const [currentSong, setCurrentSong] = useState(null);
+  const [songStatus, setSongStatus] = useState("");
+
+  useEffect(() => {
+    const fetchCurrentSong = async () => {
+      try {
+        const token = import.meta.env.SPOTIFY_ACCESS_TOKEN; // Adjust for your env setup
+        if (!token) {
+          console.error("Spotify access token not found.");
+          return;
+        }
+
+        const response = await fetch("/now-playing", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          console.error(`Error fetching song: ${response.statusText}`);
+          return;
+        }
+
+        const data = await response.json();
+        setCurrentSong(data); // Assuming 'data' contains song info
+      } catch (error) {
+        console.error("Error fetching current song:", error);
+      }
+    };
+
+    fetchCurrentSong();
+    const interval = setInterval(fetchCurrentSong, 5000); // Update every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
 
   const handleCopy = () => {
     navigator.clipboard
@@ -148,21 +186,21 @@ function BottomBar({ triggerAction }) {
   return (
     <>
       {finder === true && (
-        <Draggable bounds={{}}>
-          <div className="relative top-[-25vh] left-[31%]">
+        <Draggable>
+          <div className="relative flex items-center justify-center mb-[25vh]">
             <div className="bg-gray-400 w-[40%] min-h-[39vh] rounded-2xl backdrop-blur-xl shadow-lg pointer">
               {/* Header with Close Buttons */}
               <div className="flex justify-start items-center py-3 px-3 gap-2">
                 <motion.div
-                  whileHover={{ scale: 0.7 }}
+                  whileHover={{ scale: 0.8 }}
                   className="w-3 h-3 bg-green-500 rounded-full pointer"
                 ></motion.div>
                 <motion.div
-                  whileHover={{ scale: 0.7 }}
+                  whileHover={{ scale: 0.8 }}
                   className="w-3 h-3 bg-yellow-500 rounded-full pointer"
                 ></motion.div>
                 <motion.div
-                  whileHover={{ scale: 0.7 }}
+                  whileHover={{ scale: 0.8 }}
                   className="w-3 h-3 bg-red-500 rounded-full pointer"
                   onClick={() => triggerFinder()}
                 ></motion.div>
@@ -205,7 +243,7 @@ function BottomBar({ triggerAction }) {
                   Commissions
                 </div> */}
               {/* Rotated Divider */}
-              <div className="flex mt-[3.79vh] rotate-90 h-[1px] w-[47.6%] bg-gray-500/70" />
+              <div className="flex mt-[2.2vh] rotate-90 h-[1px] w-[47.8%] bg-gray-500/70" />
               <div className="relative bottom-[14.5vh] h-[1px] w-[76.24%] bg-gray-500/70 left-[19.5vh]" />
               <motion.div
                 className="absolute top-[2.2%] right-[65%] px-0.5 py-0.5 rounded-lg"
@@ -312,7 +350,7 @@ function BottomBar({ triggerAction }) {
                       }}
                     >
                       <motion.img
-                        whileHover={{ scale: 0.9 }}
+                        whileHover={{ scale: 0.8 }}
                         whileTap={{ scale: 0.6 }}
                         src={icons.folder}
                         alt="HealthAI"
@@ -328,7 +366,7 @@ function BottomBar({ triggerAction }) {
                       }}
                     >
                       <motion.img
-                        whileHover={{ scale: 0.9 }}
+                        whileHover={{ scale: 0.8 }}
                         whileTap={{ scale: 0.6 }}
                         src={icons.folder}
                         alt="HealthAI"
@@ -492,8 +530,31 @@ function BottomBar({ triggerAction }) {
           />
         </div>
         <div className="flex flex-col text-center justify-center items-center">
-          <p className="text-white text-sm">con</p>
-          <p className="text-white text-sm mt-1">km/h</p>
+          <div className="flex justify-start px-4 py-2">
+            {currentSong && (
+              <img
+                src={currentSong.albumArt}
+                alt="Album Art"
+                className="w-12 h-12 rounded-lg"
+              />
+            )}
+          </div>
+          <div className="flex flex-col text-center justify-center items-center">
+            {currentSong ? (
+              <>
+                <p className="text-white text-sm">{currentSong.name}</p>
+                <p className="text-white text-sm mt-1">{currentSong.artist}</p>
+              </>
+            ) : (
+              <p className="text-white text-sm">Loading...</p>
+            )}
+
+            <a
+              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+            >
+              Login to Spotify
+            </a>
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center">
