@@ -44,7 +44,8 @@ function BottomBar({ triggerAction }) {
   const project1 = "https://healthai-one.vercel.app";
   const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
   const CLIENT_ID = "f242b6cee3004e5bad23daf874fb465c";
-  const REDIRECT_URI = "http://localhost:5173";
+  const REDIRECT_URI =
+    "https://adrianhassan-macos-portfolio-rnbccq099-adrian-hassans-projects.vercel.app";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "user-read-playback-state user-read-currently-playing";
