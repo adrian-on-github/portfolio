@@ -27,6 +27,8 @@ function BottomBar({ triggerAction }) {
   const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [lastOpened, setLastOpened] = useState(null);
+  const [open, setOpen] = useState(null);
+  const [spotifyWidget, setSpotifyWidget] = useState(true);
   const [weatherData, setWeatherData] = useState({
     city: "Erfurt",
     temperature: null,
@@ -213,7 +215,7 @@ function BottomBar({ triggerAction }) {
     } else if (lastOpened === "skills") {
       triggerSkills();
     } else if (lastOpened === "") {
-      triggerHome();
+      // fallback
     }
   };
 
@@ -237,17 +239,14 @@ function BottomBar({ triggerAction }) {
     prevTriggerActionRef.current = triggerAction;
   }, [triggerAction]);
 
-  const requestOpen = () => {
-    if (finder === false) {
-      triggerFinder();
-    }
-    reopenLastOpened();
-  };
-
   const formatTime = (ms) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  const toggleSpotfiy = () => {
+    setSpotifyWidget(!spotifyWidget);
   };
 
   return (
@@ -260,7 +259,8 @@ function BottomBar({ triggerAction }) {
               <div className="flex justify-start items-center py-3 px-3 gap-2">
                 <motion.div
                   whileHover={{ scale: 0.8 }}
-                  className="w-3 h-3 bg-green-500 rounded-full pointer"
+                  className="w-3 h-3 bg-red-500 rounded-full pointer"
+                  onClick={() => triggerFinder()}
                 ></motion.div>
                 <motion.div
                   whileHover={{ scale: 0.8 }}
@@ -268,8 +268,7 @@ function BottomBar({ triggerAction }) {
                 ></motion.div>
                 <motion.div
                   whileHover={{ scale: 0.8 }}
-                  className="w-3 h-3 bg-red-500 rounded-full pointer"
-                  onClick={() => triggerFinder()}
+                  className="w-3 h-3 bg-green-500 rounded-full pointer"
                 ></motion.div>
               </div>
               {/* Content Section */}
@@ -445,14 +444,7 @@ function BottomBar({ triggerAction }) {
                 </div>
               )}
               {tech === true && projects === false && skills === false && (
-                <div className="absolute ml-[22vh] bottom-[25vh] gap-2">
-                  <img
-                    src={icons.raspberry}
-                    alt="raspberry"
-                    className="w-[15%] absolute top-5 left-[11vh]"
-                  />
-                  <img src={icons.macbook} alt="macbook" className="w-[15%]" />
-                </div>
+                <p className="justify-center flex">Not added yet</p>
               )}
               {skills === true && tech === false && projects === false && (
                 <>
@@ -597,131 +589,206 @@ function BottomBar({ triggerAction }) {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-[57.5vh] mr-1 left-[153vh] bg-gray-800 w-[25%] min-h-[18vh] rounded-2xl shadow-lg p-4">
-        <div className="flex items-center">
-          {currentSong && (
-            <img
-              src={currentSong.albumArt}
-              alt="Album Art"
-              className="w-12 h-12 rounded-lg"
-            />
-          )}
-
-          <div className="ml-4">
-            {currentSong ? (
-              <>
-                <p className="text-white text-sm">{currentSong.name}</p>
-                <p className="text-white text-sm mt-1">{currentSong.artist}</p>
-                <a
-                  href={currentSong.songLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-400 text-sm mt-1"
-                >
-                  Listen on Spotify
-                </a>
-              </>
-            ) : (
-              <p className="text-white text-sm mt-1">
-                No song is currently playing.
-              </p>
+      {spotifyWidget && (
+        <div className="absolute bottom-[57.5vh] mr-1 left-[153vh] bg-gray-800 w-[25%] min-h-[18vh] rounded-2xl shadow-lg p-4">
+          <div className="flex items-center">
+            {currentSong && (
+              <img
+                src={currentSong.albumArt}
+                alt="Album Art"
+                className="w-12 h-12 rounded-lg"
+              />
             )}
-          </div>
-        </div>
 
-        {/* Progress bar */}
-        {currentSong && (
-          <div className="mt-4">
-            <div className="relative w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+            <div className="ml-4">
+              {currentSong ? (
+                <>
+                  <p className="text-white text-sm">{currentSong.name}</p>
+                  <p className="text-white text-sm mt-1">
+                    {currentSong.artist}
+                  </p>
+                  <a
+                    href={currentSong.songLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 text-sm mt-1"
+                  >
+                    Listen on Spotify
+                  </a>
+                </>
+              ) : (
+                <p className="text-white text-sm mt-1">
+                  No song is currently playing.
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          {currentSong && (
+            <div className="mt-4">
+              <div className="relative w-full bg-gray-700 h-2 rounded-full overflow-hidden">
+                <div
+                  className="absolute bg-white h-full transition-all"
+                  style={{
+                    width: `${(progress / currentSong.duration) * 100}%`,
+                    transitionDuration: isPlaying ? "1s" : "0s", // Smooth 1s update
+                  }}
+                />
+              </div>
+              <div className="flex justify-between text-xs text-gray-400 mt-1">
+                <span>{formatTime(progress)}</span>
+                <span>{formatTime(currentSong.duration)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="flex justify-center items-center">
+        <div className="bg-gray-300/50 w-7/12 min-h-[4.5rem] rounded-2xl backdrop-blur-xl">
+          <div className="flex justify-center items-center py-3">
+            <div className="flex justify-center items-center flex-row">
               <div
-                className="absolute bg-white h-full transition-all"
-                style={{
-                  width: `${(progress / currentSong.duration) * 100}%`,
-                  transitionDuration: isPlaying ? "1s" : "0s", // Smooth 1s update
-                }}
+                className={`flex justify-center items-center flex-col ${
+                  finder === false && "mb-3"
+                }`}
+              >
+                <motion.img
+                  src={icons.finder}
+                  className="w-12 h-12 mx-2"
+                  whileHover={{ scale: 1.25 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={triggerFinder}
+                />
+                {finder && (
+                  <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+                )}
+              </div>
+              <div className="flex justify-center items-center flex-col mb-3">
+                <motion.img
+                  src={icons.gmail}
+                  className="w-12 h-12 rounded-lg mx-2"
+                  whileHover={{ scale: 1.25 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    handleCopy();
+                    triggerToast();
+                  }}
+                />
+              </div>
+              <div className="flex justify-center items-center flex-col">
+                <motion.img
+                  src={icons.folder}
+                  className={`w-[2.7rem] h-[2.7rem] bg-white px-1 py-1 rounded-lg mx-2 ${
+                    finder === false && "mb-3"
+                  }`}
+                  whileHover={{ scale: 1.25 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    triggerFinder();
+                    triggerProjects();
+                  }}
+                />
+                {finder && (
+                  <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+                )}
+              </div>
+            </div>
+            <div className="rotate-90 border border-gray-300/30 w-10" />
+
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.photoshop}
+                className="w-10 h-10 mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
               />
             </div>
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>{formatTime(progress)}</span>
-              <span>{formatTime(currentSong.duration)}</span>
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.ae}
+                className="w-10 h-10 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+              />
             </div>
-          </div>
-        )}
-      </div>
-      <div className="flex justify-center items-center">
-        <div className="bg-gray-300/50 w-8/12 min-h-16 rounded-2xl backdrop-blur-xl">
-          <div className="flex justify-center items-center py-2">
-            <motion.img
-              src={icons.finder}
-              className="w-12 h-12 mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={triggerFinder}
-            />
-            <motion.img
-              src={icons.word}
-              className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-            />
-
-            <motion.img
-              src={icons.photoshop}
-              className="w-10 h-10 mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-            />
-            <motion.img
-              src={icons.spotify}
-              className="w-10 h-10 mx-2 rounded-lg"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-            />
-            <motion.img
-              src={icons.notion}
-              className="w-10 h-10 mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-            />
-
-            <motion.img
-              src={icons.vscode}
-              className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-            />
-            <motion.img
-              src={icons.gmail}
-              className="w-[2.8rem] h-[2.8rem] rounded-lg mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                handleCopy();
-                triggerToast();
-              }}
-            />
-            <motion.img
-              src={icons.github}
-              className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => window.open(github, "_blank")}
-            />
-            <motion.img
-              src={icons.X}
-              className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => window.open(X, "_blank")}
-            />
-            <div className="rotate-90 border border-gray-300/30 w-10" />
-            <motion.img
-              src={icons.folder}
-              className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-1"
-              whileHover={{ scale: 1.25 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => requestOpen()}
-            />
+            <div
+              className={`flex justify-center items-center flex-col ${
+                spotifyWidget === false && "mb-3"
+              }`}
+            >
+              <motion.img
+                src={icons.spotify}
+                className="w-10 h-10 mx-2 rounded-lg"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => toggleSpotfiy()}
+              />
+              {spotifyWidget && (
+                <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+              )}
+            </div>
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.word}
+                className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            </div>
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.powerpoint}
+                className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            </div>
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.excel}
+                className="h-10 bg-white px-1 py-1 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            </div>
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.vscode}
+                className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            </div>
+            <div className="flex justify-center items-center flex-col">
+              <motion.img
+                src={icons.github}
+                className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => window.open(github, "_blank")}
+              />
+              <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+            </div>
+            <div className="flex justify-center items-center flex-col">
+              <motion.img
+                src={icons.X}
+                className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => window.open(X, "_blank")}
+              />
+              <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+            </div>
+            <div className="flex justify-center items-center flex-col mb-3">
+              <motion.img
+                src={icons.notion}
+                className="w-10 h-10 mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+              />
+            </div>
           </div>
         </div>
         <AnimatePresence>

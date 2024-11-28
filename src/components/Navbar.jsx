@@ -166,7 +166,8 @@ function Navbar({ request, requestTurnOff }) {
             <div className="px-4 py-3 flex items-start justify-start gap-2">
               <motion.div
                 whileHover={{ scale: 0.8 }}
-                className="w-3 h-3 bg-green-500 rounded-full"
+                className="w-3 h-3 bg-red-500 rounded-full"
+                onClick={() => handleCloseDropdown()}
               ></motion.div>
               <motion.div
                 whileHover={{ scale: 0.8 }}
@@ -174,8 +175,7 @@ function Navbar({ request, requestTurnOff }) {
               ></motion.div>
               <motion.div
                 whileHover={{ scale: 0.8 }}
-                className="w-3 h-3 bg-red-500 rounded-full"
-                onClick={() => handleCloseDropdown()}
+                className="w-3 h-3 bg-green-500 rounded-full"
               ></motion.div>
             </div>
             <div className="flex-col">

@@ -28,6 +28,9 @@ import node from "../assets/skills/nodejs.png";
 import express from "../assets/skills/express-js.png";
 import macbook from "../assets/technologies/macbook.png";
 import raspberry from "../assets/technologies/raspberry.png";
+import ae from "../assets/icons/AE.png";
+import excel from "../assets/icons/excel.png";
+import powerpoint from "../assets/icons/powerpoint.png";
 
 export {
   apple,
@@ -60,6 +63,9 @@ export {
   raspberry,
   macbook,
   spotify,
+  excel,
+  ae,
+  powerpoint,
 };
 
 const icons = {
@@ -93,6 +99,9 @@ const icons = {
   raspberry,
   macbook,
   spotify,
+  excel,
+  ae,
+  powerpoint,
 };
 
 export default icons;
