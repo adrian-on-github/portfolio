@@ -627,9 +627,19 @@ function BottomBar({ triggerAction }) {
                   </a>
                 </>
               ) : (
-                <p className="text-white text-sm mt-1">
-                  Adrian is currently not listening to spotify...
-                </p>
+                <>
+                  <p className="text-white text-sm mt-1">
+                    Adrian is currently not listening to spotify...
+                  </p>
+                  <a
+                    href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${encodeURIComponent(
+                      SCOPE
+                    )}`}
+                    className="text-white text-sm underline"
+                  >
+                    Login to Spotify
+                  </a>
+                </>
               )}
             </div>
           </div>
