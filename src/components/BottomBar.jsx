@@ -156,6 +156,9 @@ function BottomBar({ triggerAction }) {
   const triggerFinder = () => {
     setFinder(!finder);
     setHome(true);
+    setTech(false);
+    setSkills(false);
+    setProjects(false);
   };
 
   const triggerProjects = () => {
@@ -196,7 +199,6 @@ function BottomBar({ triggerAction }) {
       setFetch(false);
     }
   };
-
   const triggerHome = () => {
     if (projects === false && skills === false && tech === false) {
       setHome(!home);
@@ -209,7 +211,6 @@ function BottomBar({ triggerAction }) {
       setFetch(false);
     }
   };
-
   const reopenLastOpened = () => {
     setFetch(false);
     if (lastOpened === "projects") {
@@ -256,6 +257,18 @@ function BottomBar({ triggerAction }) {
   const toggleWeather = () => {
     setWeatherWidget(!weatherWidget);
   };
+
+  useEffect(() => {
+    if (
+      tech !== true &&
+      projects !== true &&
+      skills !== true &&
+      home !== true &&
+      fetch !== true
+    ) {
+      triggerHome();
+    }
+  }, [tech, projects, skills, home, fetch, reopenLastOpened, finder]);
 
   return (
     <>
@@ -660,7 +673,7 @@ function BottomBar({ triggerAction }) {
 
       <div className="flex justify-center items-center">
         <div className="bg-gray-300/50 w-7/12 min-h-[4.5rem] rounded-2xl backdrop-blur-xl">
-          <div className="flex justify-center items-center py-3">
+          <div className="flex justify-center items-center pt-2">
             <div className="flex justify-center items-center flex-row">
               <div
                 className={`flex justify-center items-center flex-col ${
@@ -682,7 +695,7 @@ function BottomBar({ triggerAction }) {
                 <motion.img
                   src={icons.gmail}
                   className="w-12 h-12 rounded-lg mx-2"
-                  whileHover={{ scale: 1.25 }}
+                  whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
                     handleCopy();
@@ -694,16 +707,17 @@ function BottomBar({ triggerAction }) {
                 <motion.img
                   src={icons.folder}
                   className={`w-[2.7rem] h-[2.7rem] bg-white px-1 py-1 rounded-lg mx-2 ${
-                    finder === false && "mb-3"
+                    projects === false && "mb-3"
                   }`}
-                  whileHover={{ scale: 1.25 }}
+                  whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
-                    triggerFinder();
-                    triggerProjects();
+                    if (finder === true) {
+                      triggerProjects();
+                    }
                   }}
                 />
-                {finder && (
+                {projects === true && (
                   <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
                 )}
               </div>
@@ -714,7 +728,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.photoshop}
                 className="w-10 h-10 mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
@@ -722,7 +736,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.ae}
                 className="w-10 h-10 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
@@ -734,7 +748,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.spotify}
                 className="w-10 h-10 mx-2 rounded-lg"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => toggleSpotfiy()}
               />
@@ -750,7 +764,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.weather}
                 className="h-10 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => toggleWeather()}
               />
@@ -762,7 +776,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.word}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
@@ -770,7 +784,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.powerpoint}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
@@ -778,7 +792,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.excel}
                 className="h-10 bg-white px-1 py-1 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
@@ -786,7 +800,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.vscode}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
@@ -798,7 +812,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.github}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open(github, "_blank")}
               />
@@ -814,7 +828,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.X}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open(X, "_blank")}
               />
@@ -826,7 +840,7 @@ function BottomBar({ triggerAction }) {
               <motion.img
                 src={icons.notion}
                 className="w-10 h-10 mx-2"
-                whileHover={{ scale: 1.25 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.95 }}
               />
             </div>
