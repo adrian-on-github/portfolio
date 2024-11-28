@@ -29,6 +29,9 @@ function BottomBar({ triggerAction }) {
   const [lastOpened, setLastOpened] = useState(null);
   const [open, setOpen] = useState(null);
   const [spotifyWidget, setSpotifyWidget] = useState(true);
+  const [githubBrowser, setGithubBrowser] = useState(false);
+  const [twitterBrowser, setTwitterBrowser] = useState(false);
+  const [weatherWidget, setWeatherWidget] = useState(true);
   const [weatherData, setWeatherData] = useState({
     city: "Erfurt",
     temperature: null,
@@ -247,6 +250,10 @@ function BottomBar({ triggerAction }) {
 
   const toggleSpotfiy = () => {
     setSpotifyWidget(!spotifyWidget);
+  };
+
+  const toggleWeather = () => {
+    setWeatherWidget(!weatherWidget);
   };
 
   return (
@@ -568,27 +575,30 @@ function BottomBar({ triggerAction }) {
           </div>
         </Draggable>
       )}
-      <div className="absolute bg-gradient-to-t bottom-[76.2vh] left-[153vh] from-blue-400 to-blue-500 w-[25%] min-h-[18vh] rounded-2xl shadow-lg">
-        <div className="flex justify-between px-4 py-3">
-          <div className="flex flex-col">
-            <p className="text-white text-xl">{city}</p>
-            <p className="text-white text-2xl mt-1">
-              {temperature !== null
-                ? `${Math.round(temperature)}°C`
-                : "Laden..."}
-            </p>
-          </div>
-          <div className="flex flex-col">
-            <p className="text-white text-xl">{condition || "Laden..."}</p>
-            <div className="flex flex-row">
-              <Wind className="text-white text-lg mt-1" />
-              <p className="text-white text-lg mt-1">
-                {windSpeed !== null ? `${windSpeed} km/h` : "..."}
+      {weatherWidget && (
+        <div className="absolute bg-gradient-to-t bottom-[76.2vh] left-[153vh] from-blue-400 to-blue-500 w-[25%] min-h-[18vh] rounded-2xl shadow-lg">
+          <div className="flex justify-between px-4 py-3">
+            <div className="flex flex-col">
+              <p className="text-white text-xl">{city}</p>
+              <p className="text-white text-2xl mt-1">
+                {temperature !== null
+                  ? `${Math.round(temperature)}°C`
+                  : "Laden..."}
               </p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-white text-xl">{condition || "Laden..."}</p>
+              <div className="flex flex-row">
+                <Wind className="text-white text-lg mt-1" />
+                <p className="text-white text-lg mt-1">
+                  {windSpeed !== null ? `${windSpeed} km/h` : "..."}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+
       {spotifyWidget && (
         <div className="absolute bottom-[57.5vh] mr-1 left-[153vh] bg-gray-800 w-[25%] min-h-[18vh] rounded-2xl shadow-lg p-4">
           <div className="flex items-center">
@@ -729,6 +739,22 @@ function BottomBar({ triggerAction }) {
                 <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
               )}
             </div>
+            <div
+              className={`flex justify-center items-center flex-col ${
+                weatherWidget === false && "mb-3"
+              }`}
+            >
+              <motion.img
+                src={icons.weather}
+                className="h-10 rounded-lg mx-2"
+                whileHover={{ scale: 1.25 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => toggleWeather()}
+              />
+              {weatherWidget && (
+                <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+              )}
+            </div>
             <div className="flex justify-center items-center flex-col mb-3">
               <motion.img
                 src={icons.word}
@@ -761,7 +787,11 @@ function BottomBar({ triggerAction }) {
                 whileTap={{ scale: 0.95 }}
               />
             </div>
-            <div className="flex justify-center items-center flex-col">
+            <div
+              className={`flex justify-center items-center flex-col ${
+                githubBrowser === false && "mb-3"
+              }`}
+            >
               <motion.img
                 src={icons.github}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
@@ -769,9 +799,15 @@ function BottomBar({ triggerAction }) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open(github, "_blank")}
               />
-              <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+              {githubBrowser && (
+                <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+              )}
             </div>
-            <div className="flex justify-center items-center flex-col">
+            <div
+              className={`flex justify-center items-center flex-col ${
+                twitterBrowser === false && "mb-3"
+              }`}
+            >
               <motion.img
                 src={icons.X}
                 className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
@@ -779,7 +815,9 @@ function BottomBar({ triggerAction }) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open(X, "_blank")}
               />
-              <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+              {twitterBrowser && (
+                <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+              )}
             </div>
             <div className="flex justify-center items-center flex-col mb-3">
               <motion.img

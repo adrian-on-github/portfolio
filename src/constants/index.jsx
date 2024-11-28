@@ -31,6 +31,7 @@ import raspberry from "../assets/technologies/raspberry.png";
 import ae from "../assets/icons/AE.png";
 import excel from "../assets/icons/excel.png";
 import powerpoint from "../assets/icons/powerpoint.png";
+import weather from "../assets/icons/weather.png";
 
 export {
   apple,
@@ -66,6 +67,7 @@ export {
   excel,
   ae,
   powerpoint,
+  weather,
 };
 
 const icons = {
@@ -102,6 +104,7 @@ const icons = {
   excel,
   ae,
   powerpoint,
+  weather,
 };
 
 export default icons;
