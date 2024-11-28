@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import GitHubCalendar from "react-github-calendar";
 import icons from "../constants/index";
 import Draggable from "react-draggable";
+import { Wifi, Search, BatteryFull } from "lucide-react";
 
 function Navbar({ request, requestTurnOff }) {
   const [widgetStatus, setWidgetStatus] = useState(false);
@@ -119,10 +120,10 @@ function Navbar({ request, requestTurnOff }) {
         </div>
         <div className="px-4 flex flex-row justify-center items-end">
           <div className="flex flex-row gap-[1.5vh] text-sm text-end">
-            <div className="flex justify-end items-center gap-2 scale-[1.15]">
-              <ion-icon name="wifi"></ion-icon>
-              <ion-icon name="volume-high"></ion-icon>
-              <ion-icon name="battery-full"></ion-icon>
+            <div className="flex justify-end items-center gap-3">
+              <ion-icon name="battery-full-outline"></ion-icon>
+              <ion-icon name="wifi-outline"></ion-icon>
+              <ion-icon name="search-outline"></ion-icon>
             </div>
 
             <p>{`${day} ${month} ${date} ${hours12}:${formattedMinutes} ${ampm}`}</p>

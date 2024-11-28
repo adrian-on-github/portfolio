@@ -25,7 +25,7 @@ function BottomBar({ triggerAction }) {
   const [fetch, setFetch] = useState(true);
   const [currentSong, setCurrentSong] = useState(null);
   const [progress, setProgress] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false); // Track if song is playing
+  const [isPlaying, setIsPlaying] = useState(false);
   const [lastOpened, setLastOpened] = useState(null);
   const [weatherData, setWeatherData] = useState({
     city: "Erfurt",
@@ -38,6 +38,11 @@ function BottomBar({ triggerAction }) {
   const X = "https://x.com/DEadrianJS";
   const project1 = "https://healthai-one.vercel.app";
   const project2 = "https://github.com/adrian-on-github/portfolio-macOS-copy";
+  const CLIENT_ID = "f242b6cee3004e5bad23daf874fb465c";
+  const REDIRECT_URI = "http://localhost:5173";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
+  const SCOPE = "user-read-playback-state user-read-currently-playing";
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -583,9 +588,12 @@ function BottomBar({ triggerAction }) {
           </div>
           <div className="flex flex-col">
             <p className="text-white text-xl">{condition || "Laden..."}</p>
-            <p className="text-white text-lg mt-1">
-              {windSpeed !== null ? `${windSpeed} km/h` : "..."}
-            </p>
+            <div className="flex flex-row">
+              <Wind className="text-white text-lg mt-1" />
+              <p className="text-white text-lg mt-1">
+                {windSpeed !== null ? `${windSpeed} km/h` : "..."}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -598,6 +606,7 @@ function BottomBar({ triggerAction }) {
               className="w-12 h-12 rounded-lg"
             />
           )}
+
           <div className="ml-4">
             {currentSong ? (
               <>
@@ -640,7 +649,7 @@ function BottomBar({ triggerAction }) {
         )}
       </div>
       <div className="flex justify-center items-center">
-        <div className="bg-gray-300/50 w-[45%] min-h-16 rounded-2xl backdrop-blur-xl">
+        <div className="bg-gray-300/50 w-8/12 min-h-16 rounded-2xl backdrop-blur-xl">
           <div className="flex justify-center items-center py-2">
             <motion.img
               src={icons.finder}
@@ -683,7 +692,7 @@ function BottomBar({ triggerAction }) {
             />
             <motion.img
               src={icons.gmail}
-              className="w-10 h-10 bg-white px-1 py-1 rounded-lg mx-2"
+              className="w-[2.8rem] h-[2.8rem] rounded-lg mx-2"
               whileHover={{ scale: 1.25 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => {
