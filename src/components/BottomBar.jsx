@@ -583,11 +583,11 @@ function BottomBar({ triggerAction }) {
               <p className="text-white text-2xl mt-1">
                 {temperature !== null
                   ? `${Math.round(temperature)}°C`
-                  : "Laden..."}
+                  : "Loading..."}
               </p>
             </div>
             <div className="flex flex-col">
-              <p className="text-white text-xl">{condition || "Laden..."}</p>
+              <p className="text-white text-xl">{condition || "Loading..."}</p>
               <div className="flex flex-row">
                 <Wind className="text-white text-lg mt-1" />
                 <p className="text-white text-lg mt-1">
@@ -628,7 +628,7 @@ function BottomBar({ triggerAction }) {
                 </>
               ) : (
                 <p className="text-white text-sm mt-1">
-                  No song is currently playing.
+                  Adrian is currently not listening to spotify...
                 </p>
               )}
             </div>
@@ -642,7 +642,7 @@ function BottomBar({ triggerAction }) {
                   className="absolute bg-white h-full transition-all"
                   style={{
                     width: `${(progress / currentSong.duration) * 100}%`,
-                    transitionDuration: isPlaying ? "1s" : "0s", // Smooth 1s update
+                    transitionDuration: isPlaying ? "1s" : "0s",
                   }}
                 />
               </div>
@@ -705,7 +705,7 @@ function BottomBar({ triggerAction }) {
                 )}
               </div>
             </div>
-            <div className="rotate-90 border border-gray-300/30 w-10" />
+            <div className="rotate-90 border border-gray-300/30 w-[3rem] mb-1.5" />
 
             <div className="flex justify-center items-center flex-col mb-3">
               <motion.img
