@@ -120,13 +120,16 @@ function Navbar({ request, requestTurnOff }) {
         </div>
         <div className="px-4 flex flex-row justify-center items-end">
           <div className="flex flex-row gap-[1.5vh] text-sm text-end">
-            <div className="flex justify-end items-center gap-3">
+            <motion.div
+              className="flex justify-end items-center gap-3 px-2 py-1 rounded-[0.7vh]"
+              whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+            >
               <ion-icon name="battery-full-outline"></ion-icon>
               <ion-icon name="wifi-outline"></ion-icon>
               <ion-icon name="search-outline"></ion-icon>
-            </div>
+            </motion.div>
 
-            <p>{`${day} ${month} ${date} ${hours12}:${formattedMinutes} ${ampm}`}</p>
+            <p className="mt-1.5">{`${day} ${month} ${date} ${hours12}:${formattedMinutes} ${ampm}`}</p>
           </div>
         </div>
       </nav>

@@ -32,6 +32,7 @@ import ae from "../assets/icons/AE.png";
 import excel from "../assets/icons/excel.png";
 import powerpoint from "../assets/icons/powerpoint.png";
 import weather from "../assets/icons/weather.png";
+import memoji from "../assets/icons/memoji_icon.png";
 
 export {
   apple,
@@ -68,6 +69,7 @@ export {
   ae,
   powerpoint,
   weather,
+  memoji,
 };
 
 const icons = {
@@ -105,6 +107,7 @@ const icons = {
   ae,
   powerpoint,
   weather,
+  memoji,
 };
 
 export default icons;

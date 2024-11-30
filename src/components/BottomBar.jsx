@@ -2,14 +2,26 @@ import React, { useState, useEffect, useRef } from "react";
 import icons from "../constants/index";
 import { motion, AnimatePresence } from "framer-motion";
 import Draggable from "react-draggable";
+import emailjs from "@emailjs/browser";
 import {
   Code,
   Cpu,
   GraduationCap,
   ChevronRight,
   ChevronLeft,
-  EyeOff,
+  ChevronDown,
   Wind,
+  Inbox,
+  Star,
+  Clock8,
+  FolderClosed,
+  Trash2,
+  SquarePen,
+  ArchiveX,
+  Send,
+  CornerUpLeft,
+  CornerUpRight,
+  SendHorizontal,
 } from "lucide-react";
 import axios from "axios";
 
@@ -32,6 +44,7 @@ function BottomBar({ triggerAction }) {
   const [githubBrowser, setGithubBrowser] = useState(false);
   const [twitterBrowser, setTwitterBrowser] = useState(false);
   const [weatherWidget, setWeatherWidget] = useState(true);
+  const [emailWidget, setEmailWidget] = useState(false);
   const [weatherData, setWeatherData] = useState({
     city: "Erfurt",
     temperature: null,
@@ -49,6 +62,24 @@ function BottomBar({ triggerAction }) {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "user-read-playback-state user-read-currently-playing";
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm("service_jqvgyth", "template_58v9fsi", form.current, {
+        publicKey: "_WE2vFUiE-vXiARzV",
+      })
+      .then(
+        () => {
+          console.log("SUCCESS!");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
+  };
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -256,6 +287,10 @@ function BottomBar({ triggerAction }) {
 
   const toggleWeather = () => {
     setWeatherWidget(!weatherWidget);
+  };
+
+  const triggerEmailWidget = () => {
+    setEmailWidget(!emailWidget);
   };
 
   useEffect(() => {
@@ -549,42 +584,199 @@ function BottomBar({ triggerAction }) {
                       </div>
                     </div>
                   </div>
-
-                  <motion.div
-                    className="absolute justify-center text-center items-center h-9 ml-[30vh] bottom-[13vh] flex-row px-1 py-1 w-2/4 rounded-lg bg-black/20"
-                    onClick={toggleVisibility}
-                  >
-                    {isVisible === false && (
-                      <div className="items-center justify-center flex mt-1">
-                        <EyeOff size={20} />
-                      </div>
-                    )}
-                  </motion.div>
-
-                  {isVisible && (
-                    <div className="absolute bottom-[-2vh] left-20">
-                      <div className="flex justify-center text-center flex-row px-1 py-1 rounded-lg w-2/4 ml-[30vh] mb-[15vh]">
-                        <p className="text-sm mt-1">portfolio:</p>
-                        <img
-                          src={icons.react}
-                          alt="react"
-                          className="w-10 h-7"
-                        />
-                        <img
-                          src={icons.tailwind}
-                          alt="tailwind"
-                          className="w-6 h-4 mt-1.5"
-                        />
-                        <img
-                          src={icons.js}
-                          alt="js"
-                          className="w-5 h-5 mt-1 ml-2.5"
-                        />
-                      </div>
-                    </div>
-                  )}
                 </>
               )}
+            </div>
+          </div>
+        </Draggable>
+      )}
+      {emailWidget && (
+        <Draggable>
+          <div className="absolute flex justify-start items-start bg-white w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh]">
+            <div className="flex-col flex bg-gray-500/10 w-[10rem] h-[31rem] rounded-tl-xl pointer">
+              <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  className="w-3 h-3 bg-red-500 rounded-full pointer"
+                  onClick={() => triggerEmailWidget()}
+                ></motion.div>
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  className="w-3 h-3 bg-yellow-500 rounded-full pointer"
+                ></motion.div>
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  className="w-3 h-3 bg-green-500 rounded-full pointer"
+                ></motion.div>
+              </div>
+              <div className="text-start px-3 pt-2">
+                <p className="font-psemibold text-xs text-gray-400 mb-2">
+                  Favorites
+                </p>
+                {/* inboxes */}
+                <div className="flex flex-row text-sm">
+                  <ChevronDown size={20} />
+                  <Inbox size={18} className="mr-1 text-blue-500" />
+                  <p className="text-black">All Inboxes</p>
+                </div>
+                <div className="px-4 pt-2 flex flex-col">
+                  <div className="flex flex-row text-sm">
+                    <Inbox
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">iCloud</p>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <Inbox size={16} className="mt-0.5 mr-1 text-blue-500" />
+                    <p className="text-sm">Google</p>
+                  </div>
+                </div>
+                {/* VIP */}
+                <div className="flex flex-row text-sm mt-2.5">
+                  <ChevronRight size={20} />
+                  <Star size={18} className="mr-1 text-yellow-500" />
+                  <p className="text-black">VIP</p>
+                </div>
+                <div className="px-4 pt-2 flex flex-col">
+                  <div className="flex flex-row text-sm">
+                    <Clock8
+                      size={16}
+                      className="mr-1 mb-2 mt-0.5 text-blue-500"
+                    />
+                    <p className="text-sm">Remind Me</p>
+                  </div>
+                </div>
+                <p className="font-psemibold text-xs text-gray-400 my-2">
+                  iCloud
+                </p>
+                <div className="px-4 flex flex-col">
+                  <div className="flex flex-row text-sm">
+                    <FolderClosed
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Work</p>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <FolderClosed
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Newsletter</p>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <Inbox
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Inbox</p>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <SquarePen
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Drafts</p>
+                    <div className="flex text-center justify-center items-center px-2.5 h-5 w-5 bg-gray-300 text-xs rounded-full ml-5">
+                      <p className="text-gray-700">1</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <Send
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Sent</p>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <Trash2
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Trash</p>
+                    <div className="flex text-center justify-center items-center px-2.5 h-5 w-5 bg-gray-300 text-xs rounded-full ml-[1.45rem]">
+                      <p className="text-gray-700">3</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row text-sm">
+                    <ArchiveX
+                      size={16}
+                      className="mt-0.5 mr-1 mb-2 text-blue-500"
+                    />
+                    <p className="text-sm">Archive</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col justify-start items-center px-5 py-3">
+              <div className="flex flex-row">
+                <div className="rounded-full px-4 py-3 bg-gray-200">
+                  <img
+                    src={icons.memoji}
+                    alt="user"
+                    className="w-12 h-14 rounded-full"
+                  />
+                </div>
+                <div className="flex flex-col mt-2.5">
+                  <p className="ml-4 text-gray-700 text-2xl">User</p>
+                  <p className="ml-4 text-gray-700 text-sm">
+                    to:adrian.business.ef@gmail.com
+                  </p>
+                </div>
+
+                <div className="flex flex-row text-sm ml-[20vh] gap-3">
+                  <motion.div
+                    className="px-1 py-1 rounded-lg max-h-10"
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ backgroundColor: "rgba(243, 244, 246, 1)" }}
+                  >
+                    <button
+                      type="submit"
+                      className="flex items-center justify-center"
+                    >
+                      <CornerUpLeft
+                        strokeWidth={1}
+                        size={28}
+                        className="text-blue-500"
+                        type="submit"
+                        value="Send"
+                      />
+                    </button>
+                  </motion.div>
+                  <motion.div
+                    className="px-1 py-1 rounded-lg max-h-10"
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ backgroundColor: "rgba(243, 244, 246, 1)" }}
+                  >
+                    <CornerUpRight
+                      strokeWidth={1}
+                      size={28}
+                      className="text-purple-500"
+                    />
+                  </motion.div>
+                </div>
+              </div>
+              <div className="border-gray-500/10 border w-[108.5%] mt-2 ml-2.5" />
+              <div className="mt-5 flex flex-col justify-center items-center">
+                <input
+                  type="text"
+                  name="user_name"
+                  className="px-2 py-2 placeholder-gray-300 border border-gray-400 rounded-lg mt-3"
+                  placeholder="Your Name"
+                />
+                <input
+                  type="email"
+                  name="user_email"
+                  className="px-2 py-2 placeholder-gray-300 border border-gray-400 rounded-lg mt-3"
+                  placeholder="Your Email"
+                />
+                <textarea
+                  name="message"
+                  className="px-2 py-2 placeholder-gray-300 border border-gray-400 rounded-lg min-h-20 mt-3"
+                  placeholder="Message"
+                />
+              </div>
             </div>
           </div>
         </Draggable>
@@ -691,17 +883,23 @@ function BottomBar({ triggerAction }) {
                   <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
                 )}
               </div>
-              <div className="flex justify-center items-center flex-col mb-3">
+              <div
+                className={`flex justify-center items-center flex-col ${
+                  emailWidget === false && "mb-3"
+                }`}
+              >
                 <motion.img
                   src={icons.gmail}
                   className="w-12 h-12 rounded-lg mx-2"
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
-                    handleCopy();
-                    triggerToast();
+                    triggerEmailWidget();
                   }}
                 />
+                {emailWidget === true && (
+                  <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+                )}
               </div>
               <div className="flex justify-center items-center flex-col">
                 <motion.img
