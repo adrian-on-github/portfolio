@@ -8,7 +8,7 @@ import { Wifi, Search, BatteryFull } from "lucide-react";
 function Navbar({ request, requestTurnOff }) {
   const [widgetStatus, setWidgetStatus] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   const now = new Date();
   const monthIndex = now.getMonth();
@@ -61,6 +61,10 @@ function Navbar({ request, requestTurnOff }) {
   const toggleWidget = () => {
     toggleDropDown();
     setWidgetStatus((prevWidget) => !prevWidget);
+  };
+
+  const toggleInfo = () => {
+    setShowInfo(!showInfo);
   };
 
   return (
@@ -123,6 +127,7 @@ function Navbar({ request, requestTurnOff }) {
             <motion.div
               className="flex justify-end items-center gap-3 px-2 py-1 rounded-[0.7vh]"
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
+              onClick={() => toggleInfo()}
             >
               <ion-icon name="battery-full-outline"></ion-icon>
               <ion-icon name="wifi-outline"></ion-icon>
@@ -133,6 +138,11 @@ function Navbar({ request, requestTurnOff }) {
           </div>
         </div>
       </nav>
+      {showInfo === true && (
+        <div className="min-h-[11vh] w-[25vh] bg-gray-300/50 backdrop-blur-xl mt-2 relative left-[173vh] z-10 rounded-xl">
+          <div className="px-3 py-2 flex justify-start">h</div>
+        </div>
+      )}
       {showDropDown === true && (
         <div className="min-h-[20vh] w-[13%] bg-gray-300/50 rounded-lg mx-2 mt-0.5 backdrop-blur-xl">
           <div className="px-4 py-2 gap-1 flex items-start justify-start flex-col">

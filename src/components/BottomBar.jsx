@@ -311,7 +311,7 @@ function BottomBar({ triggerAction }) {
     <>
       {finder === true && (
         <Draggable>
-          <div className="relative flex justify-start items-start bg-gray-300 w-[45%] min-h-[25rem] rounded-xl bottom-[35vh] left-[55vh]">
+          <div className="relative flex justify-start items-start bg-gray-300 w-[45%] min-h-[25rem] rounded-xl bottom-[25vh] left-[55vh]">
             <div className="flex-col h-[25rem] min-w-[29.4%] flex bg-gray-400/20 rounded-tl-xl pointer">
               <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
                 <motion.div
