@@ -71,14 +71,14 @@ export default function App() {
               />
               <p className="mt-5 text-white text-lg">Adrian Hassan</p>
               <input
-                className="rounded-full bg-gray-600/30 border border-gray-500/50 shadow-inner backdrop-blur-md py-2 px-4 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-blue-500 transition-all duration-300 mt-2"
+                className="rounded-full bg-gray-600/30 border border-gray-500/50 shadow-inner backdrop-blur-md py-2 px-4 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-500 transition-all duration-300 mt-2"
                 type="password"
                 placeholder="Enter Password"
                 onKeyDown={handleKeyDown}
               />
               <p className="mt-3 text-white">Touch ID or Enter Password</p>
               <motion.div
-                className="flex justify-center items-center relative top-[28vh] px-1 py-1 bg-gray-600/30 rounded-full backdrop-blur-xl"
+                className="flex justify-center items-center relative top-[28vh] px-2 py-2 bg-gray-600/30 rounded-full backdrop-blur-xl"
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1 }}
               >
