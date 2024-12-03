@@ -33,6 +33,7 @@ import excel from "../assets/icons/excel.png";
 import powerpoint from "../assets/icons/powerpoint.png";
 import weather from "../assets/icons/weather.png";
 import memoji from "../assets/icons/memoji_icon.png";
+import settings from "../assets/icons/settings.png";
 
 export {
   apple,
@@ -70,6 +71,7 @@ export {
   powerpoint,
   weather,
   memoji,
+  settings,
 };
 
 const icons = {
@@ -108,6 +110,7 @@ const icons = {
   powerpoint,
   weather,
   memoji,
+  settings,
 };
 
 export default icons;

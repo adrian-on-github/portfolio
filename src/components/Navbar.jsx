@@ -3,12 +3,45 @@ import { motion, AnimatePresence } from "framer-motion";
 import GitHubCalendar from "react-github-calendar";
 import icons from "../constants/index";
 import Draggable from "react-draggable";
-import { Wifi, Search, BatteryFull } from "lucide-react";
 
-function Navbar({ request, requestTurnOff }) {
+function Navbar({ request, requestTurnOff, onBrightnessChange }) {
   const [widgetStatus, setWidgetStatus] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [volume, setVolume] = useState(50);
+  const [brightness, setBrightness] = useState(100);
+
+  const handleBarClick = (e) => {
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newVolume = Math.min(
+      Math.max((clickPosition / rect.width) * 100, 0),
+      100
+    );
+    setVolume(newVolume);
+  };
+
+  const calculateBrightness = (e, bar) => {
+    const rect = bar.getBoundingClientRect();
+    const position = e.clientX - rect.left;
+    return Math.min(Math.max((position / rect.width) * 100, 0), 100);
+  };
+
+  const handleBarClickBrightness = (e) => {
+    const bar = e.currentTarget;
+    const newBrightness = calculateBrightness(e, bar);
+    setBrightness(newBrightness);
+    onBrightnessChange(newBrightness);
+  };
+
+  const handleDrag = (e) => {
+    if (e.clientX === 0) return;
+    const bar = e.currentTarget.parentElement;
+    const newBrightness = calculateBrightness(e, bar);
+    setBrightness(newBrightness);
+    onBrightnessChange(newBrightness);
+  };
 
   const now = new Date();
   const monthIndex = now.getMonth();
@@ -139,8 +172,90 @@ function Navbar({ request, requestTurnOff }) {
         </div>
       </nav>
       {showInfo === true && (
-        <div className="min-h-[11vh] w-[25vh] bg-gray-300/50 backdrop-blur-xl mt-2 relative left-[173vh] z-10 rounded-xl">
-          <div className="px-3 py-2 flex justify-start">h</div>
+        <div className="min-h-[18vh] w-[35vh] bg-gray-400/70 backdrop-blur-xl mt-2 relative left-[167vh] z-10 rounded-xl">
+          <div className="px-3 py-2">
+            <div className="flex flex-row justify-between gap-2">
+              <motion.div
+                whileHover={{ backgroundColor: "#60a5fa" }}
+                className="bg-gray-300/50 rounded-xl px-3 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+              >
+                <ion-icon name="battery-full-outline" size="large"></ion-icon>
+              </motion.div>
+              <motion.div
+                whileHover={{ backgroundColor: "#60a5fa" }}
+                className="bg-gray-300/50 rounded-xl px-3 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+              >
+                <ion-icon name="wifi-outline" size="large"></ion-icon>
+              </motion.div>
+              <motion.div
+                whileHover={{ backgroundColor: "#60a5fa" }}
+                className="bg-gray-300/50 rounded-xl px-3 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+              >
+                <ion-icon name="search-outline" size="large"></ion-icon>
+              </motion.div>
+            </div>
+            <div className="flex-col flex">
+              <div className="w-[32.5vh] bg-gray-300/50 mt-3 px-2 py-1 rounded-2xl flex items-center justify-between">
+                {/* Symbol für wenig Licht */}
+                <ion-icon name="sunny-outline"></ion-icon>
+                <div
+                  className="relative w-full h-4 bg-gray-200 rounded-lg mx-2 pointer"
+                  onClick={handleBarClickBrightness}
+                >
+                  {/* Füllbereich der Bar */}
+                  <div
+                    className="absolute top-0 left-0 h-4 bg-gray-400 rounded-lg"
+                    style={{ width: `${brightness}%` }}
+                  ></div>
+                  {/* Schieberegler */}
+                  <div
+                    className="absolute top-0 h-4 w-4 bg-gray-500 rounded-full pointer"
+                    style={{ left: `calc(${brightness}% - 12px)` }}
+                    draggable
+                    onDrag={handleDrag}
+                    onDragEnd={(e) => {
+                      const bar = e.currentTarget.parentElement;
+                      const newBrightness = calculateBrightness(e, bar);
+                      setBrightness(newBrightness);
+                      onBrightnessChange(newBrightness);
+                    }}
+                  ></div>
+                </div>
+                {/* Symbol für maximale Helligkeit */}
+                <ion-icon name="sunny"></ion-icon>
+              </div>
+              <div className="w-[32.5vh] bg-gray-300/50 mt-3 px-2 py-1 rounded-2xl flex items-center justify-between">
+                <ion-icon name="volume-off"></ion-icon>
+                <div
+                  className="relative w-full h-4 bg-gray-200 rounded-lg mx-2 pointer"
+                  onClick={handleBarClick}
+                >
+                  <div
+                    className="absolute top-0 left-0 h-4 bg-gray-400 rounded-lg"
+                    style={{ width: `${volume}%` }} // Breite entspricht der Lautstärke
+                  ></div>
+                  <div
+                    className="absolute top-0 h-4 w-4 bg-gray-500 rounded-full pointer"
+                    style={{ left: `calc(${volume}% - 12px)` }} // Position des Schiebeknopfs
+                    draggable
+                    onDrag={(e) => {
+                      if (e.clientX !== 0) {
+                        const bar = e.currentTarget.parentElement;
+                        const rect = bar.getBoundingClientRect();
+                        const dragPosition = e.clientX - rect.left;
+                        const newVolume = Math.min(
+                          Math.max((dragPosition / rect.width) * 100, 0),
+                          100
+                        );
+                        setVolume(newVolume);
+                      }
+                    }}
+                  ></div>
+                </div>
+                <ion-icon name="volume-high"></ion-icon>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {showDropDown === true && (

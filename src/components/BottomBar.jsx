@@ -47,6 +47,7 @@ function BottomBar({ triggerAction }) {
   const [emailWidget, setEmailWidget] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
+  const [settings, setSettings] = useState(false);
   const [weatherData, setWeatherData] = useState({
     city: "Erfurt",
     temperature: null,
@@ -307,6 +308,10 @@ function BottomBar({ triggerAction }) {
     }
   }, [tech, projects, skills, home, fetch, reopenLastOpened, finder]);
 
+  const toggleSettings = () => {
+    setSettings(!settings);
+  };
+
   return (
     <>
       {finder === true && (
@@ -503,7 +508,7 @@ function BottomBar({ triggerAction }) {
                 </div>
               )}
               {tech === true && projects === false && skills === false && (
-                <p className="justify-center flex">Not added yet</p>
+                <div></div>
               )}
               {skills === true && tech === false && projects === false && (
                 <>
@@ -596,7 +601,7 @@ function BottomBar({ triggerAction }) {
       {emailWidget && (
         <>
           <Draggable>
-            <div className="absolute flex justify-start items-start bg-white w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh]">
+            <div className="absolute flex justify-start items-start bg-white w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh] z-10">
               <div className="flex-col flex bg-gray-500/10 w-[10rem] h-[31rem] rounded-tl-xl pointer">
                 <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
                   <motion.div
@@ -893,7 +898,84 @@ function BottomBar({ triggerAction }) {
           )}
         </div>
       )}
-
+      {settings && (
+        <>
+          <Draggable>
+            <div className="absolute flex justify-start items-start bg-gray-300 w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh] z-10">
+              <div className="flex flex-col">
+                <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
+                  <motion.div
+                    whileHover={{ scale: 0.8 }}
+                    className="w-3 h-3 bg-red-500 rounded-full pointer"
+                    onClick={() => toggleSettings()}
+                  ></motion.div>
+                  <motion.div
+                    whileHover={{ scale: 0.8 }}
+                    className="w-3 h-3 bg-yellow-500 rounded-full pointer"
+                  ></motion.div>
+                  <motion.div
+                    whileHover={{ scale: 0.8 }}
+                    className="w-3 h-3 bg-green-500 rounded-full pointer"
+                  ></motion.div>
+                </div>
+                <div className="px-3 mt-3">
+                  <div className="flex justify-start items-center">
+                    <div className="flex flex-row bg-gray-200 rounded-xl px-2 py-1 w-[18vh] h-[4vh] border border-gray-300 hover:border-gray-500 focus-within:border-blue-400 transition-all duration-300 ease-in-out">
+                      <ion-icon
+                        name="search-outline"
+                        className="text-gray-600 text-sm mr-2"
+                      ></ion-icon>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        className="bg-transparent border-none outline-none w-full h-full px-2 text-sm text-black placeholder-black focus:ring-0"
+                      />
+                    </div>
+                  </div>
+                  <motion.div
+                    className="mt-5 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                    whileHover={{ backgroundColor: "#60a5fa" }}
+                  >
+                    <ion-icon name="settings" size="small"></ion-icon>
+                    <p className="ml-1">General</p>
+                  </motion.div>
+                  <motion.div
+                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                    whileHover={{ backgroundColor: "#60a5fa" }}
+                  >
+                    <ion-icon name="color-palette" size="small"></ion-icon>
+                    <p className="ml-1">Appearance</p>
+                  </motion.div>
+                  <motion.div
+                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                    whileHover={{ backgroundColor: "#60a5fa" }}
+                  >
+                    <ion-icon name="wifi-outline" size="small"></ion-icon>
+                    <p className="ml-1">Network</p>
+                  </motion.div>
+                  <motion.div
+                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                    whileHover={{ backgroundColor: "#60a5fa" }}
+                  >
+                    <ion-icon name="volume-high" size="small"></ion-icon>
+                    <p className="ml-1">Sound</p>
+                  </motion.div>
+                  <motion.div
+                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                    whileHover={{ backgroundColor: "#60a5fa" }}
+                  >
+                    <ion-icon name="laptop" size="small"></ion-icon>
+                    <p className="ml-1">Devices</p>
+                  </motion.div>
+                </div>
+              </div>
+              <div className="mt-5 px-4">
+                <div className="text-2xl text-black">General</div>
+              </div>
+            </div>
+          </Draggable>
+        </>
+      )}
       <div className="flex justify-center items-center">
         <div className="bg-gray-300/50 w-7/12 min-h-[4.5rem] rounded-2xl backdrop-blur-xl">
           <div className="flex justify-center items-center pt-2">
@@ -911,6 +993,22 @@ function BottomBar({ triggerAction }) {
                   onClick={triggerFinder}
                 />
                 {finder && (
+                  <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+                )}
+              </div>
+              <div
+                className={`flex justify-center items-center flex-col ${
+                  settings === false && "mb-3"
+                }`}
+              >
+                <motion.img
+                  src={icons.settings}
+                  className="h-12 w-12 rounded-lg mx-2"
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => toggleSettings()}
+                />
+                {settings && (
                   <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
                 )}
               </div>
