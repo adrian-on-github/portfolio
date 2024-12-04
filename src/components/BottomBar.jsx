@@ -859,7 +859,6 @@ function BottomBar({ triggerAction, setBackground }) {
                 className="w-12 h-12 rounded-lg"
               />
             )}
-
             <div className="ml-4">
               {currentSong ? (
                 <>
@@ -988,35 +987,6 @@ function BottomBar({ triggerAction, setBackground }) {
               </div>
               <div className="mt-5 px-4">
                 <div className="text-2xl text-black">General</div>
-                <div className="px-2">{/*general stuff in here*/}</div>
-                <div className="text-2xl text-black mt-3">Appearance</div>
-                <p className="mt-1 mb-2 px-2">Change Background Image</p>
-                <div className="px-2 flex-row flex-wrap mt-3 flex items-start justify-between">
-                  <div className="border border-gray-400 rounded-lg px-1 py-1 hover:bg-gray-400/30 transition duration-300">
-                    <img
-                      src={icons.background}
-                      alt="background1"
-                      className="w-[16rem] h-[10rem] px-1 py-1 rounded-lg"
-                      onClick={() => handleBackgroundChangeFirst()}
-                    />
-                  </div>
-                  <div className="border border-gray-400 rounded-lg px-1 py-1 hover:bg-gray-400/30 transition duration-300">
-                    <img
-                      src={icons.background2}
-                      alt="background2"
-                      className="w-[16rem] h-[10rem] px-1 py-1 rounded-lg"
-                      onClick={() => handleBackgroundChangeSecond()}
-                    />
-                  </div>
-                  <div className="border border-gray-400 rounded-lg px-1 py-1 mt-3 hover:bg-gray-400/30 transition duration-300">
-                    <img
-                      src={icons.background3}
-                      alt="background3"
-                      className="w-[16rem] h-[10rem] px-1 py-1 rounded-lg"
-                      onClick={() => handleBackgroundChangeThird()}
-                    />
-                  </div>
-                </div>
               </div>
             </div>
           </Draggable>

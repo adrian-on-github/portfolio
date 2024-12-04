@@ -1,6 +1,6 @@
 ![Macbook Preview](https://github.com/adrian-on-github/portfolio-macOS-copy/blob/main/preview.png?raw=true)
 
-### <h1>⚡ Macbook portfolio | Macfolio </h1>
+### <h1>⚡ Macbook portfolio | Macfolio</h1>
 
  <h2>Me was boring so I made this little macbook portfolio</h2>
 
@@ -9,10 +9,12 @@
 
 ###
 
-- Easily to add Socials
-- Gmail Copy
-- Draggable Widgets
-- MacOS Theme (copied)
+- MacOS Finder with Files
+- Apple Mail App
+- Weather Widget
+- Spotify Widget
+- Tab bar & Bottom bar
+- MacOS Theme(clean)
 </div>
 
 ### <h2>Live Preview: https://adrianhassan-macos-portfolio.vercel.app</h2>
