@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
-function BottomBar({ triggerAction }) {
+function BottomBar({ triggerAction, setBackground }) {
   const [showToast, setShowToast] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -258,10 +258,6 @@ function BottomBar({ triggerAction }) {
     }
   };
 
-  const toggleVisibility = () => {
-    setIsVisible(!isVisible);
-  };
-
   const prevTriggerActionRef = useRef();
 
   useEffect(() => {
@@ -310,6 +306,18 @@ function BottomBar({ triggerAction }) {
 
   const toggleSettings = () => {
     setSettings(!settings);
+  };
+
+  const handleBackgroundChangeFirst = () => {
+    setBackground({ state: "first" });
+  };
+
+  const handleBackgroundChangeSecond = () => {
+    setBackground({ state: "second" });
+  };
+
+  const handleBackgroundChangeThird = () => {
+    setBackground({ state: "third" });
   };
 
   return (
@@ -901,7 +909,7 @@ function BottomBar({ triggerAction }) {
       {settings && (
         <>
           <Draggable>
-            <div className="absolute flex justify-start items-start bg-gray-300 w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh] z-10">
+            <div className="absolute flex justify-start items-start bg-gray-300 w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh] z-10 pointer">
               <div className="flex flex-col">
                 <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
                   <motion.div
@@ -921,15 +929,17 @@ function BottomBar({ triggerAction }) {
                 <div className="px-3 mt-3">
                   <div className="flex justify-start items-center">
                     <div className="flex flex-row bg-gray-200 rounded-xl px-2 py-1 w-[18vh] h-[4vh] border border-gray-300 hover:border-gray-500 focus-within:border-blue-400 transition-all duration-300 ease-in-out">
-                      <ion-icon
-                        name="search-outline"
-                        className="text-gray-600 text-sm mr-2"
-                      ></ion-icon>
                       <input
                         type="text"
                         placeholder="Search"
                         className="bg-transparent border-none outline-none w-full h-full px-2 text-sm text-black placeholder-black focus:ring-0"
                       />
+                      <div className="relative top-0.5">
+                        <ion-icon
+                          name="search-outline"
+                          className="text-gray-600 text-sm ml-2d"
+                        ></ion-icon>
+                      </div>
                     </div>
                   </div>
                   <motion.div
@@ -967,10 +977,46 @@ function BottomBar({ triggerAction }) {
                     <ion-icon name="laptop" size="small"></ion-icon>
                     <p className="ml-1">Devices</p>
                   </motion.div>
+                  <motion.div
+                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                    whileHover={{ backgroundColor: "#60a5fa" }}
+                  >
+                    <ion-icon name="hammer" size="small"></ion-icon>
+                    <p className="ml-1">System Settings</p>
+                  </motion.div>
                 </div>
               </div>
               <div className="mt-5 px-4">
                 <div className="text-2xl text-black">General</div>
+                <div className="px-2">{/*general stuff in here*/}</div>
+                <div className="text-2xl text-black mt-3">Appearance</div>
+                <p className="mt-1 mb-2 px-2">Change Background Image</p>
+                <div className="px-2 flex-row flex-wrap mt-3 flex items-start justify-between">
+                  <div className="border border-gray-400 rounded-lg px-1 py-1 hover:bg-gray-400/30 transition duration-300">
+                    <img
+                      src={icons.background}
+                      alt="background1"
+                      className="w-[16rem] h-[10rem] px-1 py-1 rounded-lg"
+                      onClick={() => handleBackgroundChangeFirst()}
+                    />
+                  </div>
+                  <div className="border border-gray-400 rounded-lg px-1 py-1 hover:bg-gray-400/30 transition duration-300">
+                    <img
+                      src={icons.background2}
+                      alt="background2"
+                      className="w-[16rem] h-[10rem] px-1 py-1 rounded-lg"
+                      onClick={() => handleBackgroundChangeSecond()}
+                    />
+                  </div>
+                  <div className="border border-gray-400 rounded-lg px-1 py-1 mt-3 hover:bg-gray-400/30 transition duration-300">
+                    <img
+                      src={icons.background3}
+                      alt="background3"
+                      className="w-[16rem] h-[10rem] px-1 py-1 rounded-lg"
+                      onClick={() => handleBackgroundChangeThird()}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </Draggable>
@@ -982,34 +1028,34 @@ function BottomBar({ triggerAction }) {
             <div className="flex justify-center items-center flex-row">
               <div
                 className={`flex justify-center items-center flex-col ${
-                  finder === false && "mb-3"
+                  finder === false && "mb-2"
                 }`}
               >
                 <motion.img
                   src={icons.finder}
-                  className="w-12 h-12 mx-2"
+                  className="w-[3.1rem] h-[3.1rem] mx-2"
                   whileHover={{ scale: 1.25 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={triggerFinder}
                 />
                 {finder && (
-                  <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+                  <div className="px-1 py-1 bg-gray-300/80 rounded-full"></div>
                 )}
               </div>
               <div
                 className={`flex justify-center items-center flex-col ${
-                  settings === false && "mb-3"
+                  settings === false && "mb-2"
                 }`}
               >
                 <motion.img
                   src={icons.settings}
-                  className="h-12 w-12 rounded-lg mx-2"
+                  className="h-[3.27rem] w-[3.27rem] rounded-lg mx-2"
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => toggleSettings()}
                 />
                 {settings && (
-                  <div className="px-1 py-1 bg-gray-300/80 rounded-full mt-1"></div>
+                  <div className="px-1 py-1 bg-gray-300/80 rounded-full"></div>
                 )}
               </div>
               <div

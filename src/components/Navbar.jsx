@@ -158,12 +158,14 @@ function Navbar({ request, requestTurnOff, onBrightnessChange }) {
         <div className="px-4 flex flex-row justify-center items-end">
           <div className="flex flex-row gap-[1.5vh] text-sm text-end">
             <motion.div
-              className="flex justify-end items-center gap-3 px-2 py-1 rounded-[0.7vh]"
+              className="flex justify-end items-center gap-4 px-2 py-1 rounded-[0.7vh]"
               whileHover={{ backgroundColor: "rgba(107, 114, 128, 0.7)" }}
               onClick={() => toggleInfo()}
             >
+              <ion-icon name="sunny-outline"></ion-icon>
               <ion-icon name="battery-full-outline"></ion-icon>
               <ion-icon name="wifi-outline"></ion-icon>
+              <ion-icon name="volume-off"></ion-icon>
               <ion-icon name="search-outline"></ion-icon>
             </motion.div>
 
@@ -172,7 +174,7 @@ function Navbar({ request, requestTurnOff, onBrightnessChange }) {
         </div>
       </nav>
       {showInfo === true && (
-        <div className="min-h-[18vh] w-[35vh] bg-gray-400/70 backdrop-blur-xl mt-2 relative left-[167vh] z-10 rounded-xl">
+        <div className="min-h-[18vh] w-[35vh] bg-gray-400/70 backdrop-blur-xl mt-2 absolute left-[167vh] z-10 rounded-xl">
           <div className="px-3 py-2">
             <div className="flex flex-row justify-between gap-2">
               <motion.div
@@ -259,7 +261,7 @@ function Navbar({ request, requestTurnOff, onBrightnessChange }) {
         </div>
       )}
       {showDropDown === true && (
-        <div className="min-h-[20vh] w-[13%] bg-gray-300/50 rounded-lg mx-2 mt-0.5 backdrop-blur-xl">
+        <div className="min-h-[18vh] w-[13%] bg-gray-300/50 rounded-lg mx-2 mt-0.5 backdrop-blur-xl">
           <div className="px-4 py-2 gap-1 flex items-start justify-start flex-col">
             <p
               onClick={() => toggleWidget()}
@@ -276,8 +278,12 @@ function Navbar({ request, requestTurnOff, onBrightnessChange }) {
               Turn off
             </p>
             <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm pointer">Lock Screen</p>
-            <p className="font-normal text-sm pointer">Adrian Hassan log out</p>
+            <p className="font-normal text-sm pointer" onClick={requestTurnOff}>
+              Lock Screen
+            </p>
+            <p className="font-normal text-sm pointer" onClick={requestTurnOff}>
+              Adrian Hassan log out
+            </p>
           </div>
         </div>
       )}

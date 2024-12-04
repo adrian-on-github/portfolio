@@ -34,6 +34,9 @@ import powerpoint from "../assets/icons/powerpoint.png";
 import weather from "../assets/icons/weather.png";
 import memoji from "../assets/icons/memoji_icon.png";
 import settings from "../assets/icons/settings.png";
+import background from "../assets/images/background.png";
+import background2 from "../assets/images/background2.png";
+import background3 from "../assets/images/background3.png";
 
 export {
   apple,
@@ -72,6 +75,9 @@ export {
   weather,
   memoji,
   settings,
+  background2,
+  background3,
+  background,
 };
 
 const icons = {
@@ -111,6 +117,9 @@ const icons = {
   weather,
   memoji,
   settings,
+  background2,
+  background3,
+  background,
 };
 
 export default icons;

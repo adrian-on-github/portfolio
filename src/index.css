@@ -26,6 +26,30 @@
   z-index: -1; /* Hintergrund hinter dem Inhalt */
 }
 
+.background-image-second {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("./assets/images/background2.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Hintergrund hinter dem Inhalt */
+}
+
+.background-image-third {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("./assets/images/background3.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Hintergrund hinter dem Inhalt */
+}
+
 body {
   filter: brightness(var(--page-brightness));
   transition: filter 0.2s ease-in-out; /* Weicher Übergang */
