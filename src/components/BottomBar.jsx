@@ -105,7 +105,8 @@ function BottomBar({ triggerAction, setBackground }) {
 
   useEffect(() => {
     const fetchCurrentSong = async () => {
-      const token = import.meta.env.VITE_SPOTIFY_ACCESS_TOKEN;
+      const token =
+        "BQDmEuuYU_iueebX4avY_H5pxGOmchAWdU8GT7kthB6U7dRaaa8JPlSlFFz4X01rZibYmwXp5Sz9IGQ-xdX_rewh_n3kRZJUaaEhlZ-nY2-Zd6bQjUTU7POdFu6tcBccRmHn7ttpajzyibjTYp9pai-ERFTjWcf7uHxkqX1imFsI_2qfd8r_5LiLOIF8PUQTH6x1j0GGP-N_S5HKWNM";
 
       try {
         const response = await axios.get(
@@ -173,12 +174,6 @@ function BottomBar({ triggerAction, setBackground }) {
       .catch((err) => {
         console.error("Failed to copy text: ", err);
       });
-  };
-
-  // Function to trigger the toaster
-  const triggerToast = () => {
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000); // Auto-hide after 3 seconds
   };
 
   const triggerFinder = () => {
