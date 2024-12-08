@@ -11,13 +11,22 @@ export default function App() {
   const [turnOff, setTurnOff] = useState(true);
   const [background, setBackground] = useState({ state: "first" });
   const [brightness, setBrightness] = useState(100); // Standardhelligkeit (0–100)
+  const [settings, setSettings] = useState(false);
 
+  const triggerBottomBarSettings = () => {
+    console.log("Bottom Bar is running.");
+    setSettings(!settings);
+  };
   // Aktualisiert die CSS-Variable in :root
   const updateBrightness = (value) => {
     document.documentElement.style.setProperty(
       "--page-brightness",
       value / 100
     );
+  };
+
+  const toggleSettings = () => {
+    setSettings(!settings);
   };
 
   const fadeVariants = {
@@ -166,12 +175,18 @@ export default function App() {
                     setBrightness(newBrightness);
                     updateBrightness(newBrightness);
                   }}
+                  onSettings={triggerBottomBarSettings}
                 />
               </div>
               <div className="fixed bottom-2 left-0 w-full">
                 <BottomBar
+                  triggerSettings={triggerBottomBarSettings}
                   triggerAction={triggerAction}
                   setBackground={setBackground}
+                  onBrightnessChange={(newBrightness) => {
+                    setBrightness(newBrightness);
+                    updateBrightness(newBrightness);
+                  }}
                 />
               </div>
             </motion.div>

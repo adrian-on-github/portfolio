@@ -4,7 +4,7 @@ import GitHubCalendar from "react-github-calendar";
 import icons from "../constants/index";
 import Draggable from "react-draggable";
 
-function Navbar({ request, requestTurnOff, onBrightnessChange }) {
+function Navbar({ request, requestTurnOff, onBrightnessChange, onSettings }) {
   const [widgetStatus, setWidgetStatus] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -270,7 +270,9 @@ function Navbar({ request, requestTurnOff, onBrightnessChange }) {
               About this Mac
             </p>
             <div className="w-full border border-gray-300/20" />
-            <p className="font-normal text-sm pointer">System Settings</p>
+            <p className="font-normal text-sm pointer" onClick={onSettings}>
+              System Settings
+            </p>
             <div className="w-full border border-gray-300/20" />
             <p className="font-normal text-sm pointer">Stop Immediately</p>
             <div className="w-full border border-gray-300/20" />

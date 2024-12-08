@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
-function BottomBar({ triggerAction, setBackground }) {
+function BottomBar({ triggerAction, setBackground, onBrightnessChange }) {
   const [showToast, setShowToast] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -47,7 +47,9 @@ function BottomBar({ triggerAction, setBackground }) {
   const [emailWidget, setEmailWidget] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isFocusedEmail, setIsFocusedEmail] = useState(false);
+  const [volume, setVolume] = useState(50);
   const [settings, setSettings] = useState(false);
+  const [brightness, setBrightness] = useState(100);
   const [weatherData, setWeatherData] = useState({
     city: "Erfurt",
     temperature: null,
@@ -76,6 +78,38 @@ function BottomBar({ triggerAction, setBackground }) {
           console.log("FAILED...", error.text);
         }
       );
+  };
+
+  const calculateBrightness = (e, bar) => {
+    const rect = bar.getBoundingClientRect();
+    const position = e.clientX - rect.left;
+    return Math.min(Math.max((position / rect.width) * 100, 0), 100);
+  };
+
+  const handleBarClickBrightness = (e) => {
+    const bar = e.currentTarget;
+    const newBrightness = calculateBrightness(e, bar);
+    setBrightness(newBrightness);
+    onBrightnessChange(newBrightness);
+  };
+
+  const handleBarClick = (e) => {
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newVolume = Math.min(
+      Math.max((clickPosition / rect.width) * 100, 0),
+      100
+    );
+    setVolume(newVolume);
+  };
+
+  const handleDrag = (e) => {
+    if (e.clientX === 0) return;
+    const bar = e.currentTarget.parentElement;
+    const newBrightness = calculateBrightness(e, bar);
+    setBrightness(newBrightness);
+    onBrightnessChange(newBrightness);
   };
 
   useEffect(() => {
@@ -896,89 +930,179 @@ function BottomBar({ triggerAction, setBackground }) {
       )}
       {settings && (
         <>
-          <Draggable>
-            <div className="absolute flex justify-start items-start bg-gray-300 w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh] z-10 pointer">
-              <div className="flex flex-col">
-                <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
-                  <motion.div
-                    whileHover={{ scale: 0.8 }}
-                    className="w-3 h-3 bg-red-500 rounded-full pointer"
-                    onClick={() => toggleSettings()}
-                  ></motion.div>
-                  <motion.div
-                    whileHover={{ scale: 0.8 }}
-                    className="w-3 h-3 bg-yellow-500 rounded-full pointer"
-                  ></motion.div>
-                  <motion.div
-                    whileHover={{ scale: 0.8 }}
-                    className="w-3 h-3 bg-green-500 rounded-full pointer"
-                  ></motion.div>
-                </div>
-                <div className="px-3 mt-3">
-                  <div className="flex justify-start items-center">
-                    <div className="flex flex-row bg-gray-200 rounded-xl px-2 py-1 w-[18vh] h-[4vh] border border-gray-300 hover:border-gray-500 focus-within:border-blue-400 transition-all duration-300 ease-in-out">
-                      <input
-                        type="text"
-                        placeholder="Search"
-                        className="bg-transparent border-none outline-none w-full h-full px-2 text-sm text-black placeholder-black focus:ring-0"
-                      />
-                      <div className="relative top-0.5">
-                        <ion-icon
-                          name="search-outline"
-                          className="text-gray-600 text-sm ml-2d"
-                        ></ion-icon>
-                      </div>
+          <div className="absolute flex justify-start items-start bg-gray-300 w-[40%] min-h-[49vh] rounded-xl bottom-[30vh] left-[68vh] z-10 pointer">
+            <div className="flex flex-col">
+              <div className="flex justify-start items-center py-3 px-3 gap-2 flex-row">
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  className="w-3 h-3 bg-red-500 rounded-full pointer"
+                  onClick={() => toggleSettings()}
+                ></motion.div>
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  className="w-3 h-3 bg-yellow-500 rounded-full pointer"
+                ></motion.div>
+                <motion.div
+                  whileHover={{ scale: 0.8 }}
+                  className="w-3 h-3 bg-green-500 rounded-full pointer"
+                ></motion.div>
+              </div>
+              <div className="px-3 mt-3">
+                <div className="flex justify-start items-center">
+                  <div className="flex flex-row bg-gray-200 rounded-xl px-2 py-1 w-[18vh] h-[4vh] border border-gray-300 hover:border-gray-500 focus-within:border-blue-400 transition-all duration-300 ease-in-out">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      className="bg-transparent border-none outline-none w-full h-full px-2 text-sm text-black placeholder-black focus:ring-0"
+                    />
+                    <div className="relative top-0.5">
+                      <ion-icon
+                        name="search-outline"
+                        className="text-gray-600 text-sm ml-2d"
+                      ></ion-icon>
                     </div>
                   </div>
-                  <motion.div
-                    className="mt-5 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
-                    whileHover={{ backgroundColor: "#60a5fa" }}
-                  >
-                    <ion-icon name="settings" size="small"></ion-icon>
-                    <p className="ml-1">General</p>
-                  </motion.div>
-                  <motion.div
-                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
-                    whileHover={{ backgroundColor: "#60a5fa" }}
-                  >
-                    <ion-icon name="color-palette" size="small"></ion-icon>
-                    <p className="ml-1">Appearance</p>
-                  </motion.div>
-                  <motion.div
-                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
-                    whileHover={{ backgroundColor: "#60a5fa" }}
-                  >
-                    <ion-icon name="wifi-outline" size="small"></ion-icon>
-                    <p className="ml-1">Network</p>
-                  </motion.div>
-                  <motion.div
-                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
-                    whileHover={{ backgroundColor: "#60a5fa" }}
-                  >
-                    <ion-icon name="volume-high" size="small"></ion-icon>
-                    <p className="ml-1">Sound</p>
-                  </motion.div>
-                  <motion.div
-                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
-                    whileHover={{ backgroundColor: "#60a5fa" }}
-                  >
-                    <ion-icon name="laptop" size="small"></ion-icon>
-                    <p className="ml-1">Devices</p>
-                  </motion.div>
-                  <motion.div
-                    className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
-                    whileHover={{ backgroundColor: "#60a5fa" }}
-                  >
-                    <ion-icon name="hammer" size="small"></ion-icon>
-                    <p className="ml-1">System Settings</p>
-                  </motion.div>
                 </div>
-              </div>
-              <div className="mt-5 px-4">
-                <div className="text-2xl text-black">General</div>
+                <motion.div
+                  className="mt-5 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                >
+                  <ion-icon name="settings" size="small"></ion-icon>
+                  <p className="ml-1">General</p>
+                </motion.div>
+                <motion.div
+                  className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                >
+                  <ion-icon name="color-palette" size="small"></ion-icon>
+                  <p className="ml-1">Appearance</p>
+                </motion.div>
+                <motion.div
+                  className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                >
+                  <ion-icon name="wifi-outline" size="small"></ion-icon>
+                  <p className="ml-1">Network</p>
+                </motion.div>
+                <motion.div
+                  className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                >
+                  <ion-icon name="volume-high" size="small"></ion-icon>
+                  <p className="ml-1">Sound</p>
+                </motion.div>
+                <motion.div
+                  className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                >
+                  <ion-icon name="laptop" size="small"></ion-icon>
+                  <p className="ml-1">Devices</p>
+                </motion.div>
+                <motion.div
+                  className="mt-2 w-[18vh] h-[4vh] rounded-xl bg-gray-200 flex justify-start items-center px-3 text-sm"
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                >
+                  <ion-icon name="hammer" size="small"></ion-icon>
+                  <p className="ml-1">System Settings</p>
+                </motion.div>
               </div>
             </div>
-          </Draggable>
+            <div className="mt-5 px-4">
+              <div className="text-2xl text-black">General</div>
+
+              <div className="flex flex-row justify-between gap-2 mt-7">
+                <motion.div
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                  className="bg-gray-400 rounded-xl px-2 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+                >
+                  <ion-icon name="battery-full-outline" size="large"></ion-icon>
+                </motion.div>
+                <motion.div
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                  className="bg-gray-400 rounded-xl px-2 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+                >
+                  <ion-icon name="wifi-outline" size="large"></ion-icon>
+                </motion.div>
+                <motion.div
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                  className="bg-gray-400 rounded-xl px-2 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+                >
+                  <ion-icon name="search-outline" size="large"></ion-icon>
+                </motion.div>
+                <motion.div
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                  className="bg-gray-400 rounded-xl px-2 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+                >
+                  <ion-icon name="bluetooth" size="large"></ion-icon>
+                </motion.div>
+                <motion.div
+                  whileHover={{ backgroundColor: "#60a5fa" }}
+                  className="bg-gray-400 rounded-xl px-2 py-2 w-[10vh] h-[7vh] flex items-center justify-center"
+                >
+                  <ion-icon name="mic-off" size="large"></ion-icon>
+                </motion.div>
+              </div>
+              <div className="w-[32.5vh] bg-gray-300/50 mt-5 py-1 rounded-2xl flex items-center justify-between">
+                <ion-icon name="volume-off"></ion-icon>
+                <div
+                  className="relative w-full h-4 bg-gray-200 rounded-lg mx-2 pointer"
+                  onClick={handleBarClick}
+                >
+                  <div
+                    className="absolute top-0 left-0 h-4 bg-gray-400 rounded-lg"
+                    style={{ width: `${volume}%` }} // Breite entspricht der Lautstärke
+                  ></div>
+                  <div
+                    className="absolute top-0 h-4 w-4 bg-gray-500 rounded-full pointer"
+                    style={{ left: `calc(${volume}% - 12px)` }} // Position des Schiebeknopfs
+                    draggable
+                    onDrag={(e) => {
+                      if (e.clientX !== 0) {
+                        const bar = e.currentTarget.parentElement;
+                        const rect = bar.getBoundingClientRect();
+                        const dragPosition = e.clientX - rect.left;
+                        const newVolume = Math.min(
+                          Math.max((dragPosition / rect.width) * 100, 0),
+                          100
+                        );
+                        setVolume(newVolume);
+                      }
+                    }}
+                  ></div>
+                </div>
+                <ion-icon name="volume-high"></ion-icon>
+              </div>
+              <div className="w-[32.5vh] bg-gray-300/50 mt-3 py-1 rounded-2xl flex items-center justify-between">
+                {/* Symbol für wenig Licht */}
+                <ion-icon name="sunny-outline"></ion-icon>
+                <div
+                  className="relative w-full h-4 bg-gray-200 rounded-lg mx-2 pointer"
+                  onClick={handleBarClickBrightness}
+                >
+                  {/* Füllbereich der Bar */}
+                  <div
+                    className="absolute top-0 left-0 h-4 bg-gray-400 rounded-lg"
+                    style={{ width: `${brightness}%` }}
+                  ></div>
+                  {/* Schieberegler */}
+                  <div
+                    className="absolute top-0 h-4 w-4 bg-gray-500 rounded-full pointer"
+                    style={{ left: `calc(${brightness}% - 12px)` }}
+                    draggable
+                    onDrag={handleDrag}
+                    onDragEnd={(e) => {
+                      const bar = e.currentTarget.parentElement;
+                      const newBrightness = calculateBrightness(e, bar);
+                      setBrightness(newBrightness);
+                      onBrightnessChange(newBrightness);
+                    }}
+                  ></div>
+                </div>
+                {/* Symbol für maximale Helligkeit */}
+                <ion-icon name="sunny"></ion-icon>
+              </div>
+            </div>
+          </div>
         </>
       )}
       <div className="flex justify-center items-center">
